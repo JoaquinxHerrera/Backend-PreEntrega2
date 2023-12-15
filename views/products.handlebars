@@ -1,0 +1,36 @@
+{{#if totalPages}}
+<ul>
+    {{#each docs}}
+    <li>
+        <div>
+            <div>
+                {{this.title}}   
+            </div>
+            <div>
+                <img src="imagen" alt="">
+            </div>
+            <div>
+                Price: ${{this.price}}
+            </div>
+            <a href="/api/products/{{this._id}}">See datails</a>
+            <form action="/api/carts/{{cartId}}/products/{{this._id}}" method="post">
+                <input type="hidden" name="cartId" value="{{cartId}}">
+                <button type="submit">Add to Cart</button>
+            </form>
+        </div>
+    </li>
+    {{/each}}
+</ul>
+{{else}}
+Nada para mostrar... <br>
+{{/if}}
+<a {{#if hasPrevPage}} href="/api/products/?limit={{limit}}&page={{prevPage}}" {{/if}}>Prev</a>
+[{{page}}]
+<a {{#if hasNextPage}} href="/api/products/?limit={{limit}}&page={{nextPage}}" {{/if}}>Next</a><br>
+Pagina: <input type="text"> <button onclick="irAPag({{limit}})">ir</button>
+<script>
+    function irAPag(limit){
+        const pagDeseada = document.querySelector('input').value || 1
+        window.location = `/api/products/?limit=${limit}&page=${pagDeseada}`
+    }
+</script>

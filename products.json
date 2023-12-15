@@ -1,0 +1,203 @@
+[
+    {
+      "title": "Tv Smart",
+      "description": "Descripción del Producto 1",
+      "code": 1001,
+      "price": 50.00,
+      "status": true,
+      "stock": 50,
+      "category": "Electrónicos",
+      "thumbnail": "imagen1.jpg"
+    },
+    {
+      "title": "Chomba Lacoste",
+      "description": "Descripción del Producto 2",
+      "code": 1002,
+      "price": 35.99,
+      "status": true,
+      "stock": 30,
+      "category": "Ropa",
+      "thumbnail": "imagen2.jpg"
+    },
+    {
+        "title": "Sofa",
+        "description": "Descripción del Producto 3",
+        "code": 1003,
+        "price": 75.50,
+        "status": true,
+        "stock": 20,
+        "category": "Hogar",
+        "thumbnail": "imagen3.jpg"
+      },
+      {
+        "title": "Action Man",
+        "description": "Descripción del Producto 4",
+        "code": 1004,
+        "price": 120.99,
+        "status": true,
+        "stock": 15,
+        "category": "Juguetes",
+        "thumbnail": "imagen4.jpg"
+      },
+      {
+        "title": "Lavarropas",
+        "description": "Descripción del Producto 5",
+        "code": 1005,
+        "price": 25.00,
+        "status": false,
+        "stock": 10,
+        "category": "Electrodomésticos",
+        "thumbnail": "imagen5.jpg"
+      },
+      {
+        "title": "Centro de mesa",
+        "description": "Descripción del Producto 6",
+        "code": 1006,
+        "price": 90.00,
+        "status": true,
+        "stock": 25,
+        "category": "Hogar",
+        "thumbnail": "imagen6.jpg"
+    },
+    {
+        "title": "Laptop Intel",
+        "description": "Descripción del Producto 7",
+        "code": 1007,
+        "price": 42.75,
+        "status": true,
+        "stock": 18,
+        "category": "Electrónicos",
+        "thumbnail": "imagen7.jpg"
+    },
+    {
+        "title": "Jordan Dunk",
+        "description": "Descripción del Producto 8",
+        "code": 1008,
+        "price": 65.50,
+        "status": false,
+        "stock": 12,
+        "category": "Ropa",
+        "thumbnail": "imagen8.jpg"
+    },
+    {
+        "title": "Max Steel",
+        "description": "Descripción del Producto 9",
+        "code": 1009,
+        "price": 150.00,
+        "status": true,
+        "stock": 8,
+        "category": "Juguetes",
+        "thumbnail": "imagen9.jpg"
+    },
+    {
+        "title": "Cafetera",
+        "description": "Descripción del Producto 10",
+        "code": 1010,
+        "price": 30.50,
+        "status": true,
+        "stock": 15,
+        "category": "Electrodomésticos",
+        "thumbnail": "imagen10.jpg"
+    },
+    {
+      "title": "Headphone Hyper X",
+      "description": "Descripción del Producto 11",
+      "code": 1011,
+      "price": 55.00,
+      "status": true,
+      "stock": 22,
+      "category": "Electrónicos",
+      "thumbnail": "imagen11.jpg"
+    },
+    {
+        "title": "Short Adidas",
+        "description": "Descripción del Producto 12",
+        "code": 1012,
+        "price": 40.99,
+        "status": false,
+        "stock": 28,
+        "category": "Ropa",
+        "thumbnail": "imagen12.jpg"
+    },
+    {
+      "title": "Sofá Moderno",
+      "description": "Descripción del Sofá Moderno",
+      "code": 1013,
+      "price": 80.50,
+      "status": true,
+      "stock": 17,
+      "category": "Hogar",
+      "thumbnail": "imagen13.jpg"
+  },
+  {
+      "title": "Juego de Construcción Creativo",
+      "description": "Descripción del Juego de Construcción Creativo",
+      "code": 1014,
+      "price": 110.99,
+      "status": true,
+      "stock": 13,
+      "category": "Juguetes",
+      "thumbnail": "imagen14.jpg"
+  },
+  {
+      "title": "Batidora Multifuncional",
+      "description": "Descripción de la Batidora Multifuncional",
+      "code": 1015,
+      "price": 28.00,
+      "status": true,
+      "stock": 9,
+      "category": "Electrodomésticos",
+      "thumbnail": "imagen15.jpg"
+  },
+  {
+      "title": "Lámpara de Pie Elegante",
+      "description": "Descripción de la Lámpara de Pie Elegante",
+      "code": 1016,
+      "price": 75.00,
+      "status": true,
+      "stock": 20,
+      "category": "Hogar",
+      "thumbnail": "imagen16.jpg"
+  },
+  {
+      "title": "Smartphone Avanzado",
+      "description": "Descripción del Smartphone Avanzado",
+      "code": 1017,
+      "price": 47.75,
+      "status": false,
+      "stock": 14,
+      "category": "Electrónicos",
+      "thumbnail": "imagen17.jpg"
+  },
+  {
+      "title": "Camiseta de Diseño",
+      "description": "Descripción de la Camiseta de Diseño",
+      "code": 1018,
+      "price": 60.50,
+      "status": true,
+      "stock": 11,
+      "category": "Ropa",
+      "thumbnail": "imagen18.jpg"
+  },
+  {
+      "title": "Set de Juguetes Educativos",
+      "description": "Descripción del Set de Juguetes Educativos",
+      "code": 1019,
+      "price": 130.00,
+      "status": true,
+      "stock": 7,
+      "category": "Juguetes",
+      "thumbnail": "imagen19.jpg"
+  },
+  {
+      "title": "Cafetera Automática",
+      "description": "Descripción de la Cafetera Automática",
+      "code": 1020,
+      "price": 35.50,
+      "status": true,
+      "stock": 16,
+      "category": "Electrodomésticos",
+      "thumbnail": "imagen20.jpg"
+  }
+
+]

@@ -1,0 +1,36 @@
+[
+    
+  {
+    "id": 1,
+    "title": "auto",
+    "description": "autos locos",
+    "code": 1,
+    "price": 20,
+    "status": true,
+    "stock": 99,
+    "category": "autos",
+    "thumbnail": []
+  },
+  {
+    "id": 2,
+    "title": "camion",
+    "description": "autos locos",
+    "code": 2,
+    "price": 20,
+    "status": true,
+    "stock": 99,
+    "category": "autos",
+    "thumbnail": []
+  },
+  {
+    "id": 3,
+    "title": "avion",
+    "description": "autos locos",
+    "code": 1,
+    "price": 20,
+    "status": true,
+    "stock": 99,
+    "category": "autos",
+    "thumbnail": []
+  }
+]
