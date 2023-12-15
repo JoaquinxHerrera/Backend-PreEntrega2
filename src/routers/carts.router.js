@@ -20,7 +20,7 @@ cartsRouter.get('/:cid', async(req, res) =>{
         if (!cart) {
             return res.status(404).json({ message: 'Cart not found' });
         }
-        // res.json(cart)
+        // res.json(cart) muestra el populate por thunderclient
         res.render('cart.handlebars', {
             pageTitle: 'Cart',
             cart: cart,
