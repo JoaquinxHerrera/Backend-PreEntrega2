@@ -1,26 +1,21 @@
 {{#if totalPages}}
-<ul>
+<div class="cardContainer">
     {{#each docs}}
-    <li>
-        <div>
-            <div>
-                {{this.title}}   
+    <div class="card">
+            <p class="productTitle">{{this.title}}   </p>
+            <img  class="productImg"src={{this.thumbnail}} alt="">
+            <a class="seeDetails"href="/api/products/{{this._id}}">See datails</a>
+            <div class="priceStock">
+                <p class="stock">In stock: {{this.stock}}</p>
+                <p class="price">${{this.price}}</p> 
             </div>
-            <div>
-                <img src="imagen" alt="">
-            </div>
-            <div>
-                Price: ${{this.price}}
-            </div>
-            <a href="/api/products/{{this._id}}">See datails</a>
             <form action="/api/carts/{{cartId}}/products/{{this._id}}" method="post">
                 <input type="hidden" name="cartId" value="{{cartId}}">
-                <button type="submit">Add to Cart</button>
+                <button class="addToCart" type="submit">Add to Cart</button>
             </form>
-        </div>
-    </li>
+    </div>
     {{/each}}
-</ul>
+</div>
 {{else}}
 Nada para mostrar... <br>
 {{/if}}
