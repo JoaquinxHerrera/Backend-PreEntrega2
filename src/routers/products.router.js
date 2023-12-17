@@ -54,39 +54,10 @@ productsRouter.get('/', async (req, res, next)=>{
 
 productsRouter.get('/:id', async(req, res) =>{
     const product = await Product.findById(req.params.id).lean()
-    res.json(product)
+    // res.json(product)
+
+    res.render('product.handlebars', {
+        pageTitle: 'Product',
+        product: product,
+    });
 })
-
-// productsRouter.post('/', async(req, res) =>{
-//     try{
-//         const product = await Product.create(req.body)
-//         res.status(201).json(product.toObject())
-//     } catch(error){
-//         res.status(400).json({message: error.message})
-
-//     }
-// })
-
-// productsRouter.delete('/:id', async (req, res) => {
-//     const borrado = await Product.findByIdAndDelete(req.params.id)
-
-//     if (!borrado) {
-//         return res.status(404).json({message: 'usuario no encontrado'})
-//     }
-//     res.json(borrado)
-// })
-
-// productsRouter.put('/:id', async (req, res)=>{
-//     let actualizado
-//     try{
-//         actualizado = await Product.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true})//set es una operacion de mongo para actualizar, el new:true es para que devuelva el elemento actualizado,porque encuentra el elemento y despues lo actualiza, si no estuviera devolveria el elemento no actualizado.
-//     } catch(error){
-//         return res.status(400).json({message: error.message})
-//     }
-
-//     if (!actualizado){
-//         return res.status(404).json({ message: 'product not found'})
-//     }
-
-//     res.json(actualizado)
-// })

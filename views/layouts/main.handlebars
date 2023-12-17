@@ -7,6 +7,70 @@
     <title>{{pageTitle}}</title>
 </head>
 <body>
+    <header>
+        <div>
+            <img src="/static/imgs/logoPersonas.PNG" alt="">
+        </div>
+        <div class="direction">
+            <img src="/static/imgs/addressMarker.png" alt="">
+            <p class="directionUser">Deliver to Bart <br><span class="directionAddress">Av. Siempre Viva 734</span></p>
+        </div>
+        <div class="productSearch">
+           
+                <select name="category" id="categorySelect">
+                    <option value="all">All</option>
+                    <option value="Elctrónicos">Elctrónicos</option>
+                    <option value="Ropa">Ropa</option>
+                    <option value="Hogar">Hogar</option>
+                    <option value="Juguetes">Juguetes</option>
+                    <option value="Electrodomésticos">Electrodomésticos</option>
+                    <option value="Electrónicos">Electrónicos</option>
+                </select>
+                <input type="text" id="searchInput" placeholder="Search Bazaar">
+            
+            <button type="submit" onclick="performSearch()">
+                <img src="/static/imgs/search.png" alt="Search">
+            </button>
+        </div>
+        <div class="direction">
+            <p class="directionUser">Hello, sign in <br><span class="directionAddress">Account & Lists</span></p>
+        </div>
+        <div class="cart">
+            <img src="/static/imgs/cart.png" alt="">
+            Cart
+        </div>
+
+        
+    </header>
     {{{body}}}
+
+    <script>
+        function performSearch() {
+            const selectedCategory = document.getElementById('categorySelect').value;
+            const searchQuery = document.getElementById('searchInput').value;
+
+            let apiUrl = '/api/products';
+
+            // Agregar la categoría al URL si se seleccionó una categoría
+            if (selectedCategory !== 'all') {
+                apiUrl += `?category=${selectedCategory}`;
+            }
+
+            // Agregar el término de búsqueda al URL si se proporcionó
+            if (searchQuery) {
+                apiUrl += apiUrl.includes('?') ? `&search=${searchQuery}` : `?search=${searchQuery}`;
+            }
+
+            // Realizar la solicitud GET al servidor
+            fetch(apiUrl)
+                .then(response => response.json())
+                .then(data => {
+                    // Manejar la respuesta del servidor, por ejemplo, renderizar los resultados
+                    console.log(data);
+                })
+                .catch(error => console.error('Error:', error));
+        }   
+        
+    </script>
 </body>
 </html>

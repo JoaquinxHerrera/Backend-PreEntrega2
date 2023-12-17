@@ -1,31 +1,59 @@
 {{#if totalPages}}
-<div class="cardContainer">
-    {{#each docs}}
-    <div class="card">
-            <p class="productTitle">{{this.title}}   </p>
-            <img  class="productImg"src={{this.thumbnail}} alt="">
-            <a class="seeDetails"href="/api/products/{{this._id}}">See datails</a>
-            <div class="priceStock">
-                <p class="stock">In stock: {{this.stock}}</p>
-                <p class="price">${{this.price}}</p> 
-            </div>
-            <form action="/api/carts/{{cartId}}/products/{{this._id}}" method="post">
-                <input type="hidden" name="cartId" value="{{cartId}}">
-                <button class="addToCart" type="submit">Add to Cart</button>
-            </form>
+<div class="productsBody">
+    <div class="cardContainer">
+        {{#each docs}}
+        <div class="card">
+                <p class="title">{{this.title}}   </p>
+                <img  class="img"src={{this.thumbnail}} alt="">
+                <a class="seeDetails"href="/api/products/{{this._id}}">See datails</a>
+                <div class="priceStock">
+                    <p class="stock">In stock: {{this.stock}}</p>
+                    <p class="price">${{this.price}}</p> 
+                </div>
+                <button class="addToCart" onclick="addToCart('{{this._id}}')">Add to Cart</button>
+        </div>
+        {{/each}}
     </div>
-    {{/each}}
+    {{else}}
+    Nada para mostrar... <br>
+    {{/if}}
+    <a {{#if hasPrevPage}} href="/api/products/?limit={{limit}}&page={{prevPage}}" {{/if}}>Prev</a>
+    [{{page}}]
+    <a {{#if hasNextPage}} href="/api/products/?limit={{limit}}&page={{nextPage}}" {{/if}}>Next</a><br>
+    Pagina: <input type="text"> <button onclick="irAPag({{limit}})">ir</button>
 </div>
-{{else}}
-Nada para mostrar... <br>
-{{/if}}
-<a {{#if hasPrevPage}} href="/api/products/?limit={{limit}}&page={{prevPage}}" {{/if}}>Prev</a>
-[{{page}}]
-<a {{#if hasNextPage}} href="/api/products/?limit={{limit}}&page={{nextPage}}" {{/if}}>Next</a><br>
-Pagina: <input type="text"> <button onclick="irAPag({{limit}})">ir</button>
+
 <script>
     function irAPag(limit){
         const pagDeseada = document.querySelector('input').value || 1
         window.location = `/api/products/?limit=${limit}&page=${pagDeseada}`
     }
+    
+    function addToCart(productId) {
+        const cartId = prompt('Enter the cart ID:');
+        if (cartId !== null) {
+            fetch(`/api/carts/${cartId}/products/${productId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    productId: productId,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+            Toastify({
+            text: "Product added to cart!",
+            duration: 3000,
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                padding: "0.3em 1em",
+                marginBottom: "1em"
+            },
+            }).showToast();
+        }
+    }
 </script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,400;0,700;1,400&family=Playfair+Display&family=Poppins:wght@200;400;700&family=Roboto:wght@100;300;400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,400;0,700;1,400&family=Playfair+Display&family=Poppins:wght@200;400;500;700&family=Roboto:wght@100;300;400;700&display=swap');
 
 *{
     box-sizing: border-box;
@@ -8,11 +8,96 @@
 }
 
 body{
-    background-color: rgb(255, 249, 240);
-    margin: 2em 11em;
+    background-color: rgb(246, 246, 246);
+    
+}
+
+header{
+    background-color: #001F3F;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1px 1.5em;
+}
+
+.direction{
+    display: flex;
+    align-items: end;
+}
+
+.direction img{
+    height: 17px;
+    color: white;
+    margin-right: 5px;
+    margin-bottom: 3px;
+    line-height: 120%;
+
+}
+.directionUser{
+    color: rgb(195, 195, 195);
+    font-size: 0.9rem;
+}
+
+.directionAddress{
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 100%;
+}
+
+.productSearch {
+    display: flex;
+    align-items: center;
+    height: 80%;
+}
+
+.productSearch select {
+    height: 3.4em;
+    padding-left: 8px;
+    border: none;
+    border-right: 1px solid #ccc;
+    border-radius: 6px 0 0 6px;
+    width: auto;
+    background-color: rgb(228, 228, 228);
+    color: rgb(113, 113, 113);
 }
 
 
+.productSearch input[type="text"] {
+    flex: 1;
+    height: 3.4em;
+    width: 50vw;
+    padding: 0 1em;
+    border: none;
+}
+
+.productSearch button {
+    height: 3.4em;
+    padding: 0 10px;
+    border: none;
+    border-radius: 0 6px 6px 0;
+    background-color: #4CAF50;
+    cursor: pointer;
+}
+
+.productSearch button img {
+    height: 20px;
+    width: 20px;
+    
+}
+
+
+.cart{
+    color: white;
+    font-weight: 600;
+}
+.cart img{
+    width: 2.5em;
+}
+
+.productsBody{
+    margin: 2em 11em;
+}
 .cardContainer{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -20,7 +105,7 @@ body{
     margin-bottom: 1em;
 }
 .card{
-    background-color: rgb(227, 227, 227);
+    background-color: rgb(238, 238, 238);
     border: none;
     border-radius: 6px;
     padding: 1em;
@@ -28,13 +113,13 @@ body{
     
 }
 
-.productTitle{
-    font-size: 1.2rem;
-    font-weight: 600;
+.title{
+    font-size: 1.3rem;
+    font-weight: 500;
     height: 3.5em;
 }
 
-.productImg{
+.img{
     max-width: 100%;
     height: auto;
 }
@@ -71,4 +156,24 @@ body{
 
 .addToCart:hover{
     background-color: rgb(183, 128, 32);
+}
+
+.productContainer{
+    margin-top: 10%;
+    display: flex;
+    width: 80%;    
+    margin: 10% auto;
+}
+
+.productImg{
+    width: 40vw;
+}
+
+.productRight{
+    padding-top: 3em;
+}
+
+.productTitle{
+    font-weight: 500;
+    font-size: 2rem;
 }

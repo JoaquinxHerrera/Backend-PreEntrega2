@@ -1,0 +1,202 @@
+[
+    {
+        "title": "Tv Smart",
+        "description": "Disfruta de la última tecnología con este televisor inteligente. Imágenes nítidas y sonido envolvente para una experiencia visual inigualable.",
+        "code": 1001,
+        "price": 50.00,
+        "status": true,
+        "stock": 50,
+        "category": "Electrónicos",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Chomba Lacoste",
+        "description": "Chomba elegante y cómoda de la reconocida marca Lacoste. Ideal para un estilo casual pero sofisticado.",
+        "code": 1002,
+        "price": 35.99,
+        "status": true,
+        "stock": 30,
+        "category": "Ropa",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Sofa",
+        "description": "Sofá moderno y confortable para transformar tu hogar. Perfecto para relajarte después de un largo día.",
+        "code": 1003,
+        "price": 75.50,
+        "status": true,
+        "stock": 20,
+        "category": "Hogar",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Action Man",
+        "description": "Figura de acción Action Man para estimular la imaginación y creatividad de los más pequeños. ¡Aventuras ilimitadas te esperan!",
+        "code": 1004,
+        "price": 120.99,
+        "status": true,
+        "stock": 15,
+        "category": "Juguetes",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Lavarropas",
+        "description": "Lavarropas eficiente y fácil de usar para mantener tu ropa impecable. ¡La solución perfecta para la colada diaria!",
+        "code": 1005,
+        "price": 25.00,
+        "status": false,
+        "stock": 10,
+        "category": "Electrodomésticos",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Centro de mesa",
+        "description": "Centro de mesa elegante para decorar tu hogar con estilo. Aporta un toque de sofisticación a cualquier espacio.",
+        "code": 1006,
+        "price": 90.00,
+        "status": true,
+        "stock": 25,
+        "category": "Hogar",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Laptop Intel",
+        "description": "Laptop con tecnología Intel para un rendimiento excepcional. Potencia y portabilidad en un solo dispositivo.",
+        "code": 1007,
+        "price": 42.75,
+        "status": true,
+        "stock": 18,
+        "category": "Electrónicos",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Jordan Dunk",
+        "description": "Zapatillas Jordan Dunk para un estilo único y cómodo. Marca tendencia con estos zapatos de alta calidad.",
+        "code": 1008,
+        "price": 65.50,
+        "status": false,
+        "stock": 12,
+        "category": "Ropa",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Max Steel",
+        "description": "Figura de acción Max Steel para horas de diversión. ¡Aventuras llenas de acción te esperan con este juguete emocionante!",
+        "code": 1009,
+        "price": 150.00,
+        "status": true,
+        "stock": 8,
+        "category": "Juguetes",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Cafetera",
+        "description": "Cafetera para disfrutar de tu café favorito en casa. Diseño elegante y funciones prácticas para amantes del café.",
+        "code": 1010,
+        "price": 30.50,
+        "status": true,
+        "stock": 15,
+        "category": "Electrodomésticos",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Headphone Hyper X",
+        "description": "Headphones Hyper X para una experiencia de sonido inmersiva. Disfruta de la música y los juegos con la mejor calidad de audio.",
+        "code": 1011,
+        "price": 55.00,
+        "status": true,
+        "stock": 22,
+        "category": "Electrónicos",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Short Adidas",
+        "description": "Short Adidas para un estilo deportivo y cómodo. Ideal para actividades físicas o para un look casual y fresco.",
+        "code": 1012,
+        "price": 40.99,
+        "status": false,
+        "stock": 28,
+        "category": "Ropa",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Sofá Moderno",
+        "description": "Sofá moderno con un diseño elegante. Agrega un toque contemporáneo a tu sala de estar para impresionar a tus invitados.",
+        "code": 1013,
+        "price": 80.50,
+        "status": true,
+        "stock": 17,
+        "category": "Hogar",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Juego de Construcción Creativo",
+        "description": "Juego de construcción creativo para niños. Fomenta la creatividad y la destreza manual mientras los pequeños construyen y juegan.",
+        "code": 1014,
+        "price": 110.99,
+        "status": true,
+        "stock": 13,
+        "category": "Juguetes",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Batidora Multifuncional",
+        "description": "Batidora multifuncional para simplificar tus tareas en la cocina. Prepara deliciosos batidos, salsas y más con facilidad.",
+        "code": 1015,
+        "price": 28.00,
+        "status": true,
+        "stock": 9,
+        "category": "Electrodomésticos",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Lámpara de Pie Elegante",
+        "description": "Lámpara de pie elegante para iluminar tu espacio con estilo. Aporta un toque de sofisticación a cualquier habitación.",
+        "code": 1016,
+        "price": 75.00,
+        "status": true,
+        "stock": 20,
+        "category": "Hogar",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Smartphone Avanzado",
+        "description": "Smartphone avanzado con funciones de vanguardia. Captura momentos inolvidables y mantente conectado en todo momento.",
+        "code": 1017,
+        "price": 47.75,
+        "status": false,
+        "stock": 14,
+        "category": "Electrónicos",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Camiseta de Diseño",
+        "description": "Camiseta de diseño exclusivo para destacar tu estilo único. Calidad y comodidad se combinan en esta prenda imprescindible.",
+        "code": 1018,
+        "price": 60.50,
+        "status": true,
+        "stock": 11,
+        "category": "Ropa",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Set de Juguetes Educativos",
+        "description": "Set de juguetes educativos para un aprendizaje divertido. Estimula el desarrollo cognitivo y creativo de los niños.",
+        "code": 1019,
+        "price": 130.00,
+        "status": true,
+        "stock": 7,
+        "category": "Juguetes",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    },
+    {
+        "title": "Cafetera Automática",
+        "description": "Cafetera automática para un café perfecto con solo presionar un botón. Disfruta de tu bebida favorita con facilidad.",
+        "code": 1020,
+        "price": 35.50,
+        "status": true,
+        "stock": 16,
+        "category": "Electrodomésticos",
+        "thumbnail": "/static/imgs/tvSmart.png"
+    }
+]
