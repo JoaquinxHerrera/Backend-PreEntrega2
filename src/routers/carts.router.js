@@ -16,16 +16,7 @@ cartsRouter.post('/', async(req, res) =>{
 cartsRouter.get('/:cid', async(req, res) =>{
     try{
         const cart = await Cart.findById(req.params.cid).populate('products.product').lean()
-        
-        if (!cart) {
-            return res.status(404).json({ message: 'Cart not found' });
-        }
-        // res.json(cart) muestra el populate por thunderclient
-        res.render('cart.handlebars', {
-            pageTitle: 'Cart',
-            cart: cart,
-        });
-
+        res.json(cart)
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -134,7 +125,6 @@ cartsRouter.put('/:cid', async(req,res)=>{
 })
 
 cartsRouter.put('/:cid/products/:id', async(req,res)=>{
-        //  ASEGURARSE DE QUE SOLO SE PUEDAN MANDAR NUMEROS Y QUE NO TENGAN ESPACIOS
     try{
         const cartBuscado = await Cart.findById(req.params.cid)
 
@@ -183,38 +173,3 @@ cartsRouter.delete('/:cid', async(req,res)=>{
         res.status(400).json({message: error.message})
     }
 })
-
-//COMO HAGO PARA PUSTEAR UN PRODUCTO EN UN CART SIN PASAR EL IDCART POR QUERYOPARAMS
-// cartsRouter.post('/:cid/products', async (req, res) => {
-//     try {
-//         const cartId = req.params.cid;
-//         const productId = req.body.productId;
-
-//         const cart = await Cart.findById(cartId);
-
-//         if (!cart) {
-//             return res.status(404).json({ message: 'Cart not found' });
-//         }
-
-//         const existingProduct = await Product.findById(productId);
-
-//         if (!existingProduct) {
-//             return res.status(404).json({ message: 'Product not found' });
-//         }
-
-//         const existingCartItem = cart.products.find(item => item.product === productId);
-
-//         if (existingCartItem) {
-//             existingCartItem.quantity += 1;
-//         } else {
-//             cart.products.push({ product: productId, quantity: 1 });
-//         }
-
-//         const updatedCart = await cart.save();
-
-//         res.status(200).json({ message: 'Product added to the cart successfully', updatedCart });
-//     } catch (error) {
-//         res.status(500).json({ message: error.message });
-//     }
-// });
-

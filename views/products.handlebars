@@ -5,7 +5,7 @@
         <div class="card">
                 <p class="title">{{this.title}}   </p>
                 <img  class="img"src={{this.thumbnail}} alt="">
-                <a class="seeDetails"href="/api/products/{{this._id}}">See datails</a>
+                <a class="seeDetails"href="/products/{{this._id}}">See datails</a>
                 <div class="priceStock">
                     <p class="stock">In stock: {{this.stock}}</p>
                     <p class="price">${{this.price}}</p> 
@@ -17,9 +17,9 @@
     {{else}}
     Nada para mostrar... <br>
     {{/if}}
-    <a {{#if hasPrevPage}} href="/api/products/?limit={{limit}}&page={{prevPage}}" {{/if}}>Prev</a>
+    <a {{#if hasPrevPage}} href="/products/?limit={{limit}}&page={{prevPage}}" {{/if}}>Prev</a>
     [{{page}}]
-    <a {{#if hasNextPage}} href="/api/products/?limit={{limit}}&page={{nextPage}}" {{/if}}>Next</a><br>
+    <a {{#if hasNextPage}} href="/products/?limit={{limit}}&page={{nextPage}}" {{/if}}>Next</a><br>
     Pagina: <input type="text"> <button onclick="irAPag({{limit}})">ir</button>
 </div>
 

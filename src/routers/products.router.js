@@ -14,6 +14,7 @@ productsRouter.get('/', async (req, res, next)=>{
     
     if (req.query.title) {criterioDeBusqueda.title = req.query.title}
     if (req.query.category) {criterioDeBusqueda.category = req.query.category}
+    if (req.query.status !== undefined){query.status = req.query.status === "true"}
     
     const sortOptions = {};
     if (req.query.sort) {
@@ -21,31 +22,27 @@ productsRouter.get('/', async (req, res, next)=>{
     }
 
     try {
-        const result = await Product.paginate(criterioDeBusqueda, {
+        const data = await Product.paginate(criterioDeBusqueda, {
             ...opcionesDePaginacion,
             sort: sortOptions 
         });
-        console.log(result)
+        
 
-        res.render('products.handlebars', {
-            status: 'success/error',
-            pageTitle: 'Products',
-            payload: result,
-            totalPages: result.docs.length > 0,
-            ...result,
-            // prevPage: result.prevPage,
-            // nextPage: result.nextPage,
-            // page: result.page,
-            // hasPrevPage: result.hasPrevPage,
-            // hasNextPage: result.hasNextPage,
-            // prevLink: result.prevLink,
-            // nextLink: result.nextLink
-
-
-        });
+        const response = {
+            status: res.status,
+            payload: data.docs,
+            prevPage: data.prevPage,
+            nextPage: data.nextPage,
+            page: data.page,
+            hasPrevPage: data.hasPrevPage,
+            hasNextPage: data.hasNextPage,
+            prevLink: data.prevLink,
+            nextLinl: data.nextLink
+           
+        };
+        res.status(200).send(response)
     } catch (error) {
-        console.error('Error fetching and rendering products:', error);
-        res.render('error.handlebars', { error: 'Internal Server Error' });
+        res.status(404).send({ message: error.message })
     }
 });
 
@@ -54,10 +51,6 @@ productsRouter.get('/', async (req, res, next)=>{
 
 productsRouter.get('/:id', async(req, res) =>{
     const product = await Product.findById(req.params.id).lean()
-    // res.json(product)
+    res.json(product)
 
-    res.render('product.handlebars', {
-        pageTitle: 'Product',
-        product: product,
-    });
 })
