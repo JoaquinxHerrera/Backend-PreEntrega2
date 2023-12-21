@@ -1,14 +1,30 @@
 import { Router } from "express";
-import { Product } from "../models/Product.js";
-import { Cart } from "../models/Cart.js";
+import { Product } from "../../models/Product.js";
+import { Cart } from "../../models/Cart.js";
+import { onlyLoggedWeb } from "../../middlewares/authorization.js";
 
 export const webRouter = Router()
 
 webRouter.get('/', async(req,res)=>{
-    res.redirect('/api/products')
+    res.redirect('/login')
 })
 
-webRouter.get('/products', async (req,res, next)=>{
+webRouter.get('/register', (req,res)=>{
+    res.render('register.handlebars', {pageTitle: 'Register'})
+})
+webRouter.get('/login', (req,res)=>{
+    res.render('login.handlebars', {pageTitle: 'Login'})
+})
+
+// webRouter.get('/profile', onlyLoggedWeb, (req,res)=>{
+//     res.render('profile.handlebars', {
+//         pageTitle: 'Profile',
+//         ...req.session['user']
+//     })
+// })
+
+webRouter.get('/products', onlyLoggedWeb, async (req,res, next)=>{
+    
     const opcionesDePaginacion = {
         limit: req.query.limit || 10,
         page: req.query.page || 1,
@@ -31,6 +47,7 @@ webRouter.get('/products', async (req,res, next)=>{
     });
     console.log(result)
     res.render('products.handlebars', {
+        ...req.session['user'],
         pageTitle: 'Products',
         totalPages: result.docs.length > 0,
         ...result,

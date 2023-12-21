@@ -3,45 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/static/js/css/styles.css">
+    <link rel="stylesheet" href="/static/css/styles.css">
+    <link rel="stylesheet" href="/static/css/style.css">
     <title>{{pageTitle}}</title>
 </head>
 <body>
-    <header>
-        <div>
-            <img src="/static/imgs/logoPersonas.PNG" alt="">
-        </div>
-        <div class="direction">
-            <img src="/static/imgs/addressMarker.png" alt="">
-            <p class="directionUser">Deliver to Bart <br><span class="directionAddress">Av. Siempre Viva 734</span></p>
-        </div>
-        <div class="productSearch">
-           
-                <select name="category" id="categorySelect">
-                    <option value="all">All</option>
-                    <option value="Elctrónicos">Elctrónicos</option>
-                    <option value="Ropa">Ropa</option>
-                    <option value="Hogar">Hogar</option>
-                    <option value="Juguetes">Juguetes</option>
-                    <option value="Electrodomésticos">Electrodomésticos</option>
-                    <option value="Electrónicos">Electrónicos</option>
-                </select>
-                <input type="text" id="searchInput" placeholder="Search Bazaar">
-            
-            <button type="submit" onclick="performSearch()">
-                <img src="/static/imgs/search.png" alt="Search">
-            </button>
-        </div>
-        <div class="direction">
-            <p class="directionUser">Hello, sign in <br><span class="directionAddress">Account & Lists</span></p>
-        </div>
-        <div class="cart">
-            <img src="/static/imgs/cart.png" alt="">
-            Cart
-        </div>
-
-        
-    </header>
+    {{>header}}
+    {{>navBar}}
     {{{body}}}
 
     <script>

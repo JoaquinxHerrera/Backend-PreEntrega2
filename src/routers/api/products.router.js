@@ -1,7 +1,10 @@
 import { Router } from "express";
-import { Product } from "../models/Product.js";
+import { Product } from "../../models/Product.js";
+import axios from 'axios';
 
 export const productsRouter = Router()
+
+
 
 productsRouter.get('/', async (req, res, next)=>{
     const opcionesDePaginacion = {
