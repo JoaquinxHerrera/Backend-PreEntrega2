@@ -57,3 +57,30 @@ productsRouter.get('/:id', async(req, res) =>{
     res.json(product)
 
 })
+
+
+productsRouter.post('/', async(req, res) =>{
+    try{
+        const product = await Product.create(req.body)
+        res.status(201).json(product)
+    } catch(error){
+        res.status(400).json({message: error.message})
+
+    }
+})
+
+productsRouter.put('/:id', async (req, res)=>{
+    let actualizado
+    try{
+        actualizado = await Product.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true})
+    } catch(error){
+        return res.status(400).json({message: error.message})
+    }
+
+    if (!actualizado){
+        return res.status(404).json({ message: 'product not found'})
+    }
+
+    res.json(actualizado)
+})
+
