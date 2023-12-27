@@ -6,6 +6,7 @@ import { webRouter } from './routers/web/web.router.js'
 import {sessions} from './middlewares/sesiones.js'
 import {MONGODB_CNX_STR, PORT} from './config.js'
 import axios from 'axios';
+import { passportInitialize, passportSession } from './middlewares/authentication.js'
 // import products from '../products.json' assert { type: 'json' }
 // import { Product } from './models/Product.js'
 
@@ -27,6 +28,7 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 app.use(sessions)
+app.use(passportInitialize, passportSession)
 
 app.use('/api', apiRouter)
 app.use('/', webRouter)

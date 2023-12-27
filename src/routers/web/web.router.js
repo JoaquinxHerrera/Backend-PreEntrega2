@@ -2,26 +2,17 @@ import { Router } from "express";
 import { Product } from "../../models/Product.js";
 import { Cart } from "../../models/Cart.js";
 import { onlyLoggedWeb } from "../../middlewares/authorization.js";
+import { sesionesRouter } from "./sesiones.router.js";
+import { usuariosRouter } from "./usuarios.router.js";
 
 export const webRouter = Router()
 
+webRouter.use(sesionesRouter)
+webRouter.use(usuariosRouter)
+
 webRouter.get('/', async(req,res)=>{
-    res.redirect('/login')
+    return res.redirect('/login')
 })
-
-webRouter.get('/register', (req,res)=>{
-    res.render('register.handlebars', {pageTitle: 'Register'})
-})
-webRouter.get('/login', (req,res)=>{
-    res.render('login.handlebars', {pageTitle: 'Login'})
-})
-
-// webRouter.get('/profile', onlyLoggedWeb, (req,res)=>{
-//     res.render('profile.handlebars', {
-//         pageTitle: 'Profile',
-//         ...req.session['user']
-//     })
-// })
 
 webRouter.get('/products', onlyLoggedWeb, async (req,res, next)=>{
     

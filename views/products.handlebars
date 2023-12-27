@@ -1,14 +1,12 @@
-<div class="login">
-    <h1>Welcome!</h1>
-    <p>Name: {{name}}</p>
-    <p>Surname: {{surname}}</p>
-    <p>Email: {{email}}</p>
-    <p>Rol: {{rol}}</p>
+<div>
+    <h1>Profile</h1>
+    <p>Name: <span id="user_name"></span></p>
+    <p>Surname: <span id="user_surname"></span></p>
+    <p>Email: <span id="user_email"></span></p>
 
-    <form>
-        <button type="submit">Logout</button>
-    </form>
-</div>  
+    <a href="/edit">Edit your info</a>
+    <a id="logout" href="#">Logout</a>
+</div>
     
 
 {{#if totalPages}}

@@ -10,9 +10,7 @@ formLogin?.addEventListener('submit', async event =>{
         body: new URLSearchParams(new FormData(formLogin))
     })
 
-    if (response.status ===201){
-        const sesion = await response.json()
-        alert(JSON.stringify(sesion))
+    if (response.status === 201){
         window.location.href='/products';
     } else {
         const error = await response.json()

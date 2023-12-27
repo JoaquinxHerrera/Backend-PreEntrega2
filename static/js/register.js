@@ -11,9 +11,7 @@ formRegister?.addEventListener('submit', async event => {
     })
 
     if (response.status === 201){
-        const {payload: usuario} = await response.json()
-        alert(JSON.stringify(usuario))
-        window.location.href = '/login'
+        window.location.href = '/products'
     } else {
         const error = await response.json()
         alert(error.message)
