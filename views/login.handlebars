@@ -1,14 +1,20 @@
 <div class="login"> 
     <h1>Login</h1>
     <form>
-        <label for="email">Email</label>
-        <input type="email" name="email" placeholder="Email" autocomplete="on"><br>
-        <label for="password">Password</label>
-        <input type="password" name="password" placeholder="Password" autocomplete="on">
+        <div>
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="Email" autocomplete="on">
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Password" autocomplete="on">
+        </div>
         <button type="submit">Login</button>
     </form>
-    <p>Forgot your password? Click <a href="/resetpassword">here</a></p>
-    <p>Do you prefer to login with GitHub? Click <a href="/githublogin">here</a></p>
+    <p class="alreadyAccount">Forgot your password? Click <a href="/resetpassword">here</a></p>
+    <div class="githubBtn">
+        <a class="githubLogin" href="/githublogin"><img src="" alt=""> Login with Github</a>
+    </div>
 </div>  
 
 <script src="/static/js/login.js"></script>

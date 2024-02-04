@@ -1,7 +1,7 @@
 import { Router } from "express";
-import { Product } from "../../models/Product.js";
-import { Cart } from "../../models/Cart.js";
+import { Product } from "../../daos/products/products.dao.mongoose.js";
 import { onlyLoggedWeb } from "../../middlewares/authorization.js";
+import { Cart } from "../../daos/carts/cart.dao.mongoose.js";
 import { sesionesRouter } from "./sesiones.router.js";
 import { usuariosRouter } from "./usuarios.router.js";
 

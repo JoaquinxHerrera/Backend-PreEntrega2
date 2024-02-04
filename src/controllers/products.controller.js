@@ -1,58 +1,86 @@
-import { pm } from "../services/ProductsManager.js"
+import { Product } from "../daos/products/products.dao.mongoose.js";
+import { productService } from "../services/products.service.js";
 
-export async function getController  (req, res){
+
+export async function getController  (req, res, next){
+    const paginationOptions = {
+        limit: req.query.limit || 10,
+        page: req.query.page || 1,
+        lean: true
+    }
+
+    const query ={}
+    
+    if (req.query.title) {query.title = req.query.title}
+    if (req.query.category) {query.category = req.query.category}
+    if (req.query.status !== undefined){query.status = req.query.status === "true"}
+    
+    const sortOptions = {};
+    if (req.query.sort) {
+        sortOptions.price = req.query.sort === 'desc' ? -1 : 1;
+    }
+
     try {
-        const products = await pm.getProducts(req.query);
-        res.json(products);
+        const data = await Product.paginate(query, {
+            ...paginationOptions,
+            sort: sortOptions 
+        });
+        
+        const response = {
+            status: res.status,
+            payload: data.docs,
+            prevPage: data.prevPage,
+            nextPage: data.nextPage,
+            page: data.page,
+            hasPrevPage: data.hasPrevPage,
+            hasNextPage: data.hasNextPage,
+            prevLink: data.prevLink,
+            nextLinl: data.nextLink
+           
+        };
+        res.status(200).send(response)
     } catch (error) {
-        console.error('Error al obtener productos:', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
+        res.status(404).send({ message: error.message })
     }
 }
 
 export async function getIdController (req, res){
-    const id = Number(req.params.id)
+    const id = req.params.id
     try{
-        const buscado = await pm.getProductById(id)
-        res.json(buscado)
+        const productById = await productService.getProductById(id)
+        return res.json({productById})
     } catch(error){
-        res.status(404).json({
-            message: error.message
-        })
+        res.status(404).json({message: error.message})
     } 
 }
 
 export async function postController(req, res){
     try{
-        console.log('add product' )
-        const product = req.body
-        console.log(product)
-        await pm.addProduct(product)
-        res.json(product)
+        const product = await productService.addProduct(req.body)
+        res.result(product)
     }catch (error) {
-        console.error('Error al obtener productos:', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
+        res.status(400).json({message: error.message})
     }
 }
 
 export async function putController(req, res){
-    const id = Number(req.params.id)
+    const {id} = req.params
     const updatedFields = req.body
     try{
-        const buscado = await pm.updateProduct(id, updatedFields)
-        res.json(buscado)
+       await productService.updateProduct(id, updatedFields)
+        res.json(id)
     }catch(error){
-        res.status(500).json({error: 'Error interno del servidor'})
+        res.status(404).json({message: error.message})
     }
 }
 
 export async function deleteController(req, res){
-    const id = Number(req.params.id)
+    const {id} = req.params
     try{
-        const deleted = await pm.deleteProduct(id)
-        res.json(deleted)
+        await productService.deleteProduct(id)
+        res.json(req.body)
     }catch(error){
-        res.status(500).json({error:'Error interno del servidor'})
+        res.status(404).json({message: error.message})
     }
 }
     

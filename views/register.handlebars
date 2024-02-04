@@ -1,16 +1,28 @@
 <div class="login">
-    <h1>Register</h1>
+    <h1>Create Account</h1>
     <form action="/register" method="post">
-        <label for="name">Name</label>
-        <input type="text" name="name" placeholder="Name"><br>
-        <label for="surname">Surname</label>
-        <input type="text" name="surname" placeholder="Surname"><br>
-        <label for="email">Email</label>
-        <input type="email" name="email" placeholder="Email"><br>
-        <label for="password">Password</label>
-        <input type="password" name="password" placeholder="Password"><br>
-        <button type="submit">Register</button>
+        <div>
+            <label for="name">Name</label>
+            <input type="text" name="name" placeholder="Name">
+        </div>
+        <div>
+            <label for="surname">Surname</label>
+            <input type="text" name="surname" placeholder="Surname">
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="email" name="email" placeholder="Email">
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" name="password" placeholder="Password">
+        </div>
+        <button type="submit" class="createAcntBtn">Create Account</button>
     </form>
-    <p>Do you prefer to register with GitHub? Click <a href="/githublogin">here</a></p>
+    <p class="alreadyAccount">Already hace an account? <a href="/login">Log in</a></p>
+    <div class="githubBtn">
+        <a class="githubLogin" href="/githublogin">Login with Github</a>
+    </div>
+    
 </div>
 <script src="/static/js/register.js"></script>

@@ -1,10 +1,11 @@
 import mongoose, { model } from "mongoose";
 import {randomUUID} from "node:crypto"
-import { hasheadasSonIguales } from "../utils/criptografia.js";
+import { hasheadasSonIguales } from "../../utils/criptografia.js";
+
 
 const collection = 'users'
 
-const schema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
     _id: {type: String, default: randomUUID},
     email: {type: String, unique: true, required: true},
     password: {type: String, default: '(no aplica)'},
@@ -46,4 +47,27 @@ const schema = new mongoose.Schema({
     }
 })
 
-export const userManager = mongoose.model(collection, schema)
+export const User = mongoose.model(collection, userSchema)
+
+class UserDaoMongoose {
+    async create(data){
+        const newUserCart = await cartService.createCart()
+        data.cart = newUserCart
+        const user = await User.create(data)
+        return user.toObject()
+    }
+    async readOne(id){
+        return await User.findById({_id: id}).lean()
+    }
+    async readMany(query){
+        return await User.find(query).lean()
+    }
+    async updateOne(id, data){
+        return await User.findByIdAndUpdate({_id:id}, {$set: data}, {new: true}).lean()
+    }
+    async deleteOne(id){
+        return await User.findByIdAndDelete({_id: id}).lean()
+    }
+}
+
+export const userDaoMongoose = new UserDaoMongoose()

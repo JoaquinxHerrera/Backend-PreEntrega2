@@ -179,7 +179,65 @@ header{
 }
 
 .login{
-    margin-top: 1em;
-    text-align: center;
+    width: 35vw;
+    background-color: #ccc;
+    margin: 10vh auto;
+    padding: 2em 4em;
+    border-radius: 8px;
+    
 }
 
+.login div{
+    display: flex;
+    flex-direction: column;
+}
+
+.login h1{
+    text-align: center;
+    margin-bottom: 0.5em;
+}
+
+.login input{
+    padding:0.8em;
+    border-radius: 6px;
+    border: none;
+    margin-bottom: 0.8em;
+}
+
+.login button{
+    width: 100%;
+    padding:0.8em;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    background-color: #001F3F;
+    color: white;
+    margin: 2em 0;
+    
+
+}
+
+.login button:hover{
+    background-color: #022f5d;
+}
+
+.alreadyAccount{
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+.alreadyAccount a{
+    color: #03396f;
+}
+
+.githubBtn{
+    width: 100%;
+}
+.githubLogin{
+    margin: 0 auto;
+    text-decoration: none;
+    border: 1px solid #03396f;
+    color: #03396f;
+    border-radius: 8px;
+    padding: 0.5em 2em;
+}
