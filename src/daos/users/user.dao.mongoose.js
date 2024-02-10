@@ -1,7 +1,8 @@
-import mongoose, { model } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 import {randomUUID} from "node:crypto"
+import { cartService } from "../../services/cart.service.js";
 import { hasheadasSonIguales } from "../../utils/criptografia.js";
-
+import { Cart } from "../carts/cart.dao.mongoose.js";
 
 const collection = 'users'
 
@@ -9,8 +10,11 @@ const userSchema = new mongoose.Schema({
     _id: {type: String, default: randomUUID},
     email: {type: String, unique: true, required: true},
     password: {type: String, default: '(no aplica)'},
-    name: {type: String, default: '(sin especificar)'},
-    surname: {type: String, default: '(sin especificar)'},
+    first_name: {type: String, default: '(sin especificar)'},
+    last_name: {type: String, default: '(sin especificar)'},
+    age: { type: Number, default: 0 },
+    cart: { type: Object, ref: 'carts', required: true },
+    rol: { type: String, default: "user" }
 }, {
     strict: 'throw',
     versionKey: false,
@@ -21,8 +25,8 @@ const userSchema = new mongoose.Schema({
             if(email === 'adminCoder@coder.com' && password === 'adminCod3r123') {
                 userData = {
                     email: 'admin',
-                    name: 'admin',
-                    surname: 'admin',
+                    first_name: 'admin',
+                    last_name: 'admin',
                     rol: 'admin'
                 }
             }else {
@@ -37,14 +41,21 @@ const userSchema = new mongoose.Schema({
         
                 userData = {
                     email: user['email'],
-                    name: user['name'],
-                    surname: user['surname'],
-                    rol: 'usuario'
+                    first_name: user['first_name'],
+                    last_name: user['last_name'],
+                    age: user['user'],
+                    cart: user['cart'],
+                    rol: 'usuario',
                 }
             }
             return userData
         }
     }
+})
+
+userSchema.pre('findOne', function(next){
+    this.populate('cart')
+    next()
 })
 
 export const User = mongoose.model(collection, userSchema)
@@ -57,7 +68,7 @@ class UserDaoMongoose {
         return user.toObject()
     }
     async readOne(id){
-        return await User.findById({_id: id}).lean()
+        return await User.findById({_id:id})
     }
     async readMany(query){
         return await User.find(query).lean()

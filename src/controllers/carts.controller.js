@@ -90,14 +90,22 @@ export async function updateCartController(req, res){
             return res.status(400).send({ message: 'Invalid products data' });
         }
 
-        
         existingCart.products = newProducts;
 
-        
         const updatedCart = await cartService.updateOneCart(cid, existingCart);
+
+        req.user.cart = updatedCart; 
+        req.session.save((err) => {
+            if (err) {
+                console.error('Error al guardar la sesión:', err);
+                return res.status(500).send({ message: 'Error al guardar la sesión del usuario' });
+            }
+            console.log('Sesión del usuario actualizada correctamente');
+        });
 
         res.json(updatedCart);
     } catch (error) {
+        console.error('Error al actualizar el carrito:', error);
         res.status(500).send({ message: error.message });
     }
 }

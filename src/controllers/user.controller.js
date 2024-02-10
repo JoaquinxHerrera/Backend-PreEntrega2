@@ -1,23 +1,34 @@
 import passport from "passport"
+import { User } from "../daos/users/user.dao.mongoose.js"
+import { appendJwtAsCookie } from "../middlewares/authentication.js"
 import { userService } from "../services/user.service.js"
 import { hashear } from "../utils/criptografia.js"
 
 export async function postUserController(req, res){
-    try {
-        req.body.password = hashear(req.body.password)
-        const user = await userService.create(req.body)
-
-        res.status(201).json({status: 'success', payload: user})
-    } catch (error) {
-        res.status(400).json({message: error.message})
+    passport.authenticate('local-register', {
+        failWithError: true,
+    }),
+    appendJwtAsCookie,
+    async function (req, res) {
+        res.status(201).json({status: 'success', payload: req.user})
     }
+
+    // try {
+    //     req.body.password = hashear(req.body.password)
+    //     const user = await userService.createUser(req.body)
+
+    //     res.status(201).json({status: 'success', payload: user})
+    // } catch (error) {
+    //     res.status(400).json({message: error.message})
+    // }
 }
 
 export async function getUserController(req, res){
-    passport.authenticate("jwt", {failWithError: true}),
-    async (req, res) =>{
+    passport.authenticate('jwt', {failWithError: true}),
+    async (req, res)=>{
         res.json({status: 'success', payload: req.user})
     }
+
 }
 
 export async function putUserController(req, res){
@@ -26,7 +37,7 @@ export async function putUserController(req, res){
             req.body.password = hashear(req.body.password)
         }
 
-        const updated = await userService.updateOne(
+        const updated = await User.updateOne(
             {email: req.body.email},
             {$set: req.body},
             {new: true}

@@ -15,7 +15,6 @@ webRouter.get('/', async(req,res)=>{
 })
 
 webRouter.get('/products', onlyLoggedWeb, async (req,res, next)=>{
-    
     const opcionesDePaginacion = {
         limit: req.query.limit || 10,
         page: req.query.page || 1,
@@ -38,8 +37,10 @@ webRouter.get('/products', onlyLoggedWeb, async (req,res, next)=>{
     });
     console.log(result)
     res.render('products.handlebars', {
-        ...req.session['user'],
+        user: req.user,
         pageTitle: 'Products',
+        isAdmin: req.user && req.user.rol === 'admin',
+        isUser:req.user && req.user.rol === 'user',
         totalPages: result.docs.length > 0,
         ...result,
     });

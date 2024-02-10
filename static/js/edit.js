@@ -11,8 +11,8 @@ window.addEventListener('load', async event=>{
     const result = await response.json()
     const user = result.payload
 
-    inputs[1].value = user.name
-    inputs[2].value = user.surname
+    inputs[1].value = user.first_name
+    inputs[2].value = user.last_name
     inputs[3].value = user.email
 },
 

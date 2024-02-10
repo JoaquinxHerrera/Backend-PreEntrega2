@@ -8,3 +8,11 @@ export const GITHUB_CLIENT_SECRET = 'a4977b95ea1aeeedfaa61456c28d812243273878'
 export const GITHUB_CALLBACK_URL= 'http://localhost:8080/githubcallback'
 
 export const MODO_EJECUCION = 'online'
+
+export const JWT_SECRET = 'secreto'
+export const COOKIE_SECRET = 'cookieSecret'
+export const COOKIE_OPTS = {
+    signed: true,
+    maxAge: 24 * 60 * 60 * 1000,
+    httpOnly: true,
+};

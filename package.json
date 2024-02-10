@@ -6,7 +6,7 @@
   "main": "src/main.js",
   "scripts": {
     "start": "node . ",
-    "dev": "nodemon ."
+    "dev": "nodemon -e js,handlebars,html ."
   },
   "keywords": [],
   "author": "",
@@ -15,21 +15,26 @@
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "connect-mongo": "^5.1.0",
+    "cookie-parser": "^1.4.6",
     "express": "^4.18.2",
     "express-handlebars": "^7.1.2",
     "express-session": "^1.17.3",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.0.3",
     "mongoose-paginate-v2": "^1.7.4",
     "multer": "^1.4.5-lts.1",
     "node": "^21.2.0",
     "passport": "^0.7.0",
     "passport-github2": "^0.1.12",
+    "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
     "session": "^0.1.0",
     "socket.io": "^4.7.2",
-    "sweetalert2": "^11.10.1"
+    "sweetalert2": "^11.10.1",
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
+    "@types/passport-jwt": "^4.0.1",
     "nodemon": "^3.0.3"
   }
 }

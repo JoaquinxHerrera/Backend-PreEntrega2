@@ -1,13 +1,50 @@
+
 <div>
     <h1>Profile</h1>
-    <p>Name: <span id="user_name"></span></p>
-    <p>Surname: <span id="user_surname"></span></p>
-    <p>Email: <span id="user_email"></span></p>
+    <p>Name: {{first_name}}</p>
+    <p>Surname: {{last_name}}</p>
+    <p>Email: {{email}}</p>
 
     <a href="/edit">Edit your info</a>
     <a id="logout" href="#">Logout</a>
 </div>
-    
+
+
+{{#if isAdmin}}
+<div class="modify-products">
+    <h2>Modify Products</h2>
+    <form>
+        <div>
+            <label for="">ID</label>
+            <input type="text" name="ID" placeholder="ID">
+        </div>
+        <div>
+            <label for="">Title</label>
+            <input type="text" name="title" placeholder="Title">
+        </div>
+        <div>
+            <label for="">Price</label>
+            <input type="text" name="price" placeholder="Price">
+        </div>
+        <div>
+            <label for="">Stock</label>
+            <input type="text" name="stock" placeholder="Stock">
+        </div>
+        <div>
+            <label for="">Category</label>
+            <input type="text" name="category" placeholder="Category">
+        </div>
+        <div>
+            <label for="">Description</label>
+            <input type="text" name="description" placeholder="Description">
+        </div>
+        <div>
+            <label for="">Image</label>
+            <input type="text" name="image" placeholder="Image">
+        </div>
+    </form>
+</div>
+{{/if}}
 
 {{#if totalPages}}
 <div class="productsBody">
@@ -41,30 +78,38 @@
     }
     
     function addToCart(productId) {
-        const cartId = prompt('Enter the cart ID:');
-        if (cartId !== null) {
-            fetch(`/api/carts/${cartId}/products/${productId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    productId: productId,
-                }),
+        fetch('/api/users/current')
+            .then(response => {
+                if (response.status === 403) {
+                    alert('You need to log in to add products to your cart.');
+                } else {
+                    const cartId = prompt('Enter the cart ID:');
+                    if (cartId !== null) {
+                        fetch(`/api/carts/${cartId}/products/${productId}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify({
+                                productId: productId,
+                            }),
+                        })
+                        .then(response => response.json())
+                        .then(data => console.log(data))
+                        .catch(error => console.error('Error:', error));
+                        Toastify({
+                        text: "Product added to cart!",
+                        duration: 3000,
+                        style: {
+                            background: "linear-gradient(to right, #00b09b, #96c93d)",
+                            padding: "0.3em 1em",
+                            marginBottom: "1em"
+                        },
+                        }).showToast();
+                    }
+                }
             })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('Error:', error));
-            Toastify({
-            text: "Product added to cart!",
-            duration: 3000,
-            style: {
-                background: "linear-gradient(to right, #00b09b, #96c93d)",
-                padding: "0.3em 1em",
-                marginBottom: "1em"
-            },
-            }).showToast();
-        }
+            .catch(error => console.log('Error', error)) 
     }
 </script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
