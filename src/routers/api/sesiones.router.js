@@ -8,9 +8,6 @@ export const sesionesRouter = Router()
 sesionesRouter.post('/', 
     passport.authenticate('loginLocal',{failWithError: true, session: false}),
     appendJwtAsCookie,
-    // async function (req, res){
-    //   res['creado'](req.user)
-    // }
     async(req,res)=>{
         console.log(req.user)
         res.status(201).json({status: 'success', message: 'Login success', user: req.user})
@@ -37,14 +34,6 @@ sesionesRouter.get("/githubcallback",
   (error, req, res, next)=>{res.redirect('/login')}
 );
 
-
-// sesionesRouter.delete('/current', 
-//   // removeJwtFromCookies,
-//   // (req, res) =>{
-//   //   res.json({status: 'success', message: 'logout OK'})
-//   // }
-  
-// );
 
 sesionesRouter.delete('/current', (req,res)=>{
   req.session.destroy(err =>{

@@ -13,14 +13,6 @@ export async function postUserController(req, res){
         res.status(201).json({status: 'success', payload: req.user})
     }
 
-    // try {
-    //     req.body.password = hashear(req.body.password)
-    //     const user = await userService.createUser(req.body)
-
-    //     res.status(201).json({status: 'success', payload: user})
-    // } catch (error) {
-    //     res.status(400).json({message: error.message})
-    // }
 }
 
 export async function getUserController(req, res){
