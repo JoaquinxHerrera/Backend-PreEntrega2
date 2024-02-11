@@ -16,3 +16,5 @@ export const COOKIE_OPTS = {
     maxAge: 24 * 60 * 60 * 1000,
     httpOnly: true,
 };
+
+export const ADMIN_EMAIL = 'adminCoder@coder.com'

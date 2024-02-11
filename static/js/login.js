@@ -11,8 +11,6 @@ formLogin?.addEventListener('submit', async event =>{
     })
 
     if (response.status === 201){
-        const sesion = await response.json()
-        alert(JSON.stringify(sesion))
         window.location.href='/products';
     } else {
         const error = await response.json()

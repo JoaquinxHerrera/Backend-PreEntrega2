@@ -1,0 +1,9 @@
+export const errorStatusMap = {
+    INCORRECT_DATA: 400,
+    UNAUTHORIZED: 401,
+    FORBIDDEN: 403,
+    NOT_FOUND: 404,
+    DUPLICATED_KEY: 409,
+    UNEXPECTED_ERROR: 500,
+    INTERNAL_SERVER_ERROR: 500,
+};

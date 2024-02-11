@@ -1,3 +1,5 @@
+import { decrypt } from "../utils/criptografia.js"
+
 export function onlyLoggedRest (req, res, next){
     if (!req.isAuthenticated()){
         return res
@@ -35,5 +37,15 @@ export function isUser(req, res, next){
         return next()
     }else{
         return res.status(403).json({message: 'You need to be logged in'})
+    }
+}
+
+export async function authenticate(req, res, next){
+    try{
+        const userData = await decrypt(req['tokenDecrypt'])
+        req.user = userData
+        next()
+    }catch(error){
+        res.status(401).json({status:'error', message: 'auth filed, invalid token'})
     }
 }

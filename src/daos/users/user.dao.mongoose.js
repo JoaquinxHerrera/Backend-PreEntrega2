@@ -1,7 +1,9 @@
 import mongoose, { model, Schema } from "mongoose";
 import {randomUUID} from "node:crypto"
+import { ADMIN_EMAIL } from "../../config.js";
 import { cartService } from "../../services/cart.service.js";
 import { hasheadasSonIguales } from "../../utils/criptografia.js";
+import { errorStatusMap } from "../../utils/errorCodes.js";
 import { Cart } from "../carts/cart.dao.mongoose.js";
 
 const collection = 'users'
@@ -14,10 +16,20 @@ const userSchema = new mongoose.Schema({
     last_name: {type: String, default: '(sin especificar)'},
     age: { type: Number, default: 0 },
     cart: { type: Object, ref: 'carts', required: true },
-    rol: { type: String, default: "user" }
+    rol: { type: String, enum: ['user', 'admin'], default: "user" }
 }, {
     strict: 'throw',
     versionKey: false,
+    methods: {
+        publicInfo: function (){
+            return {
+                first_name: this.first_name,
+                last_name: this.last_name,
+                email: this.email,
+                rol: this.rol,
+            }
+        }
+    },
     statics:{
         login: async function (email, password) {
             let userData
@@ -45,11 +57,40 @@ const userSchema = new mongoose.Schema({
                     last_name: user['last_name'],
                     age: user['user'],
                     cart: user['cart'],
-                    rol: 'usuario',
+                    rol: 'user',
                 }
             }
             return userData
-        }
+        },
+        // register: async function (userData) {
+        //     try {
+        //       if (!userData.email || !userData.password)
+        //         throw new Error("INCORRECT_DATA: Missing required fields");
+    
+        //       userData.password = hashPassword(userData.password);
+        //       if (userData.email === ADMIN_EMAIL) userData.rol = "admin";
+        //       const user = await this.create(userData);
+        //       return user.toObject();
+        //     } catch (error) {
+        //       const typedError = new Error(error.message);
+        //       typedError.code =
+        //         error.code === 11000
+        //           ? errorStatusMap.DUPLICATED_KEY
+        //           : errorStatusMap.UNEXPECTED_ERROR;
+        //       throw typedError;
+        //     }
+        // },
+        authentication: async function ({ username, password }) {
+            try {
+              const user = await this.findOne({ username });
+              if (!user || !areHashesEqual(password, user.password))
+                throw new Error("UNAUTHORIZED");
+              return user.toObject();
+            } catch (error) {
+              const typedError = new Error(error.message);
+              typedError.code = errorStatusMap.UNAUTHORIZED;
+            }
+        },
     }
 })
 

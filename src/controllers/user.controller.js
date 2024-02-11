@@ -4,15 +4,36 @@ import { appendJwtAsCookie } from "../middlewares/authentication.js"
 import { userService } from "../services/user.service.js"
 import { hashear } from "../utils/criptografia.js"
 
-export async function postUserController(req, res){
-    passport.authenticate('local-register', {
-        failWithError: true,
-    }),
-    appendJwtAsCookie,
-    async function (req, res) {
-        res.status(201).json({status: 'success', payload: req.user})
+export async function postUserController(req, res, next){
+    try {
+        req.body.password = hashear(req.body.password)
+        const user = await userService.createUser(req.body)
+
+        res.status(201).json({status: 'success', payload: user})
+    } catch (error) {
+        res.status(400).json({message: error.message})
     }
 
+    appendJwtAsCookie
+
+    // passport.authenticate('local-register', {
+    //     failWithError: true,
+    //     session:false
+    // }),
+    // appendJwtAsCookie,
+    // async function (req, res) {
+    //     res.status(201).json({status: 'success', payload: req.user})
+    // }
+    // try {
+    //     req.body.password = hashear(req.body.password);
+        
+    //     const user = await userService.createUser(req.body);
+    //     req.user = user
+    //     res.result(user)
+    // } catch (error) {
+    //   next(error)
+    // }
+    // appendJwtAsCookie
 }
 
 export async function getUserController(req, res){
