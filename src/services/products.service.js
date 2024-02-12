@@ -1,4 +1,7 @@
 import { productsDaoMongoose } from "../daos/products/products.dao.mongoose.js"
+import { NotFoundError } from "../errors/errors.js"
+
+
 
 class ProductService{
     async getProducts(){
@@ -7,6 +10,7 @@ class ProductService{
 
     async getProductById(id){
         const productById = await productsDaoMongoose.readOne({_id: id})
+        if(!productById) throw NotFoundError('product not found')
         return productById
     }
 

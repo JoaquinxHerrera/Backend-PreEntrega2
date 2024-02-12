@@ -6,6 +6,7 @@ import {usuariosRouter} from './usuarios.router.js'
 import { errorHandler } from "../../middlewares/errorHandler.js"
 import { improvedAnswers } from "../../middlewares/improvedAnswers.js"
 import { ordersRouter } from "./orders.router.js"
+import { productsMockRouter } from "./productsMock.copy.js"
 
 export const apiRouter = Router()
 
@@ -19,5 +20,6 @@ apiRouter.use('/carts', cartsRouter)
 apiRouter.use('/sessions', sesionesRouter)
 apiRouter.use('/users', usuariosRouter)
 apiRouter.use('/orders', ordersRouter)
+apiRouter.use('/productsMock', productsMockRouter)
 
 apiRouter.use(errorHandler)

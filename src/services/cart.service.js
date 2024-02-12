@@ -11,6 +11,7 @@ class CartService {
     }
     async getCartById(id){
         const cartById = await cartsDaoMongoose.readOne(id)
+        if(!cartById) throw NotFoundError('cart not found')
         return cartById
     }
     async updateOneCart(id, data){

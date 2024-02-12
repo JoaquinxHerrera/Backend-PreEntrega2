@@ -1,4 +1,5 @@
 import {randomUUID} from 'node:crypto'
+import { newError } from '../errors/errors'
 
 export class Product {
     #_id
@@ -33,24 +34,24 @@ export class Product {
   get stock() {return this.#stock}
 
   set title(value) {
-    if (!value) throw new Error('The title is necessary')
+    if (!value) throw newError(ErrorType.INVALID_DATA, 'The title is necessary')
     this.#title = value
   }
 
   set price(value) {
-    if (!value) throw new Error('The price is necessary')
-    if (value <= 0) throw new Error('The price should be positive')
+    if (!value) throw newError(ErrorType.INVALID_DATA, 'The price is necessary')
+    if (value <= 0) throw newError(ErrorType.INVALID_DATA,'The price should be positive')
     this.#price = value
   }
 
   set code(value) {
-    if (!value) throw new Error('The code is necessary')
+    if (!value) throw newError(ErrorType.INVALID_DATA, 'The code is necessary')
     this.#code = value
   }
 
   set stock(value) {
-    if (!value) throw new Error('The stock is necessary')
-    if (value <= 0) throw new Error('The stock should be positive')
+    if (!value) throw newError(ErrorType.INVALID_DATA, 'The stock is necessary')
+    if (value <= 0) throw newError(ErrorType.INVALID_DATA, 'The stock should be positive')
     this.#stock = value
   }
 
