@@ -115,7 +115,7 @@ class UserDaoMongoose {
         return await User.find(query).lean()
     }
     async updateOne(id, data){
-        return await User.findByIdAndUpdate({_id:id}, {$set: data}, {new: true}).lean()
+        return await User.findByIdAndUpdate({_id:id}, {$set: data}, {new: true}).toObject()
     }
     async deleteOne(id){
         return await User.findByIdAndDelete({_id: id}).lean()

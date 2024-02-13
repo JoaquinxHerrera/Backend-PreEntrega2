@@ -2,7 +2,7 @@ const formLogout = document.querySelector('form')
 const spans = document.querySelectorAll('span')
 
 window.addEventListener('load', async () =>{
-    const response = await fetch('/api/users/current')
+    const response = await fetch('/api/sessions/current')
 
     if (response.status === 403){
         alert('You need to log in to see your information')
@@ -10,13 +10,7 @@ window.addEventListener('load', async () =>{
     }
     
     const result = await response.json()
-    const user = result.payload
-
- 
-        spans[2].innerHTML = user.first_name ;
-        spans[3].innerHTML = user.last_name;
-        spans[4].innerHTML = user.email ;
-  
+    const user = result.payload  
     
     const aLogout = document.getElementById('logout')
     aLogout.addEventListener('click', logout)

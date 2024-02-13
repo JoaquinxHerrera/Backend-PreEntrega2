@@ -14,7 +14,7 @@ webRouter.get('/', async(req,res)=>{
     return res.redirect('/login')
 })
 
-webRouter.get('/products', onlyLoggedWeb, async (req,res, next)=>{
+webRouter.get('/products', async (req,res, next)=>{
     const opcionesDePaginacion = {
         limit: req.query.limit || 10,
         page: req.query.page || 1,
