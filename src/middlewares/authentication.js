@@ -50,7 +50,7 @@ passport.use('loginGithub', new GithubStrategy({
     clientID: GITHUB_CLIENT_ID, 
     clientSecret: GITHUB_CLIENT_SECRET, 
     callbackURL: GITHUB_CALLBACK_URL
-    }, async (token, refreshToken, profile, done) => {
+    }, async (_, __, profile, done) => {
         const user = await User.findOne({email: profile.username})
         // if(!user){
         //     await User.create({

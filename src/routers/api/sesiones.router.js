@@ -30,11 +30,11 @@ sesionesRouter.get("/githublogin", passport.authenticate("loginGithub"));
 
 sesionesRouter.get("/githubcallback",
   passport.authenticate("loginGithub", {
-    failWithError:true
+    failWithError:true,
+    successRedirect: "/profile",
+    failureRedirect: "/login",
   }),
-  appendJwtAsCookie,
-  (req, res) =>{ res.redirect('/profile')},
-  (error, req, res, next)=>{res.redirect('/login')}
+  appendJwtAsCookie
 );
 
 
