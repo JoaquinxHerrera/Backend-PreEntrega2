@@ -1,19 +1,18 @@
 import { logger } from "../utils/logger.js"
 
 export function errorHandler(error, req, res, next) {
-    let status
     switch (error.name) {
-        case ErrorType.INVALID_DATA:
-            status= 400
-            break;
-
+        case ErrorType.BAD_REQUEST:
+          res.status(400);
+        case ErrorType.UNAUTHORIZED:
+          res.status(401);
+        case ErrorType.FORBIDDEN:
+          res.status(403);
         case ErrorType.NOT_FOUND:
-            status = 404
-            break;
+          res.status(404);
         default:
-            status = 500
-            
-    }
+          res.status(500);
+      }
 
     logger.error(`http error - status ${status} - message ${error.message} `)
 

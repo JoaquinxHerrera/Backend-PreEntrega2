@@ -17,6 +17,16 @@ connect()
 
 const app = express()
 
+app.get("/loggerTest", (req, res) => {
+    logger.debug("LOGGER TEST DEBUG");
+    logger.http("LOGGER TEST HTTP");
+    logger.info("LOGGER TEST INFO");
+    logger.warning("LOGGER TEST WARNING");
+    logger.error("LOGGER TEST ERROR");
+    logger.fatal("LOGGER TEST FATAL");
+    return;
+});
+
 app.engine('handlebars', engine())
 
 app.listen(PORT, ()=>{
@@ -35,7 +45,7 @@ app.use(passportInitialize, passportSession)
 app.use('/api', apiRouter)
 app.use('/', webRouter)
 
-app.use(httpLogger)
+
 
 
 
