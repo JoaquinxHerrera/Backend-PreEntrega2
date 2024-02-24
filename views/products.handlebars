@@ -95,7 +95,7 @@
                             }),
                         })
                         .then(response => response.json())
-                        .then(data => console.log(data))
+                        .then(data => logger.info(data))
                         .catch(error => console.error('Error:', error));
                         Toastify({
                         text: "Product added to cart!",
@@ -109,7 +109,7 @@
                     }
                 }
             })
-            .catch(error => console.log('Error', error)) 
+            .catch(error => logger.info('Error', error)) 
     }
 </script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>

@@ -102,7 +102,7 @@ passport.use("jwt", new JwtStrategy(
         secretOrKey: JWT_SECRET,
       },
       function loginUser(user, done) {
-        // console.log(user)
+        // logger.info(user)
         done(null, user);
       }
     )

@@ -18,3 +18,9 @@ export const COOKIE_OPTS = {
 };
 
 export const ADMIN_EMAIL = 'adminCoder@coder.com'
+
+export const NODE_ENV = process.env.NODE_ENV === 'development' ? 'error' : 'http'
+export const loggerLevel = {
+    CONSOLE: NODE_ENV === 'production' ? 'error' : 'http',
+    FILE: NODE_ENV === 'production' ? 'http':  'error'
+}

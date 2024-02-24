@@ -9,6 +9,8 @@ import axios from 'axios';
 import { connect } from './database/database.js'
 import cookieParser from 'cookie-parser'
 import { passportInitialize, passportSession } from './middlewares/authentication.js'
+import { logger } from './utils/logger.js'
+import { httpLogger } from './middlewares/httpLogger.js'
 
 
 connect()
@@ -18,7 +20,7 @@ const app = express()
 app.engine('handlebars', engine())
 
 app.listen(PORT, ()=>{
-    console.log(`servidor escuchando peticiones en puerto: ${PORT}`)
+    logger.info(`servidor escuchando peticiones en puerto: ${PORT}`)
 })
 app.use('/static', express.static('static'));
 
@@ -32,6 +34,8 @@ app.use(passportInitialize, passportSession)
 
 app.use('/api', apiRouter)
 app.use('/', webRouter)
+
+app.use(httpLogger)
 
 
 

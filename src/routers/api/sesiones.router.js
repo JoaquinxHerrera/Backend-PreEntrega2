@@ -3,6 +3,7 @@ import passport from "passport";
 import { userDTO } from "../../dto/user.dto.js";
 import { appendJwtAsCookie, removeJwtFromCookies } from "../../middlewares/authentication.js";
 import { onlyLoggedRest } from "../../middlewares/authorization.js";
+import { logger } from "../../utils/logger.js";
 
 export const sesionesRouter = Router()
 
@@ -10,7 +11,7 @@ sesionesRouter.post('/',
     passport.authenticate('loginLocal',{failWithError: true, session: false}),
     appendJwtAsCookie,
     async(req,res)=>{
-        console.log(req.user)
+        logger.info(req.user)
         res.status(201).json({status: 'success', message: 'Login success', user: req.user})
     },
     (error,req,res,next)=> {

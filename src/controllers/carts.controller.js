@@ -2,6 +2,7 @@
 import { Cart } from "../daos/carts/cart.dao.mongoose.js"
 import { cartService } from "../services/cart.service.js"
 import { productService } from "../services/products.service.js"
+import { logger } from "../utils/logger.js"
 
 export async function getCartsController(req, res){
     let limit = req.query.limit
@@ -100,7 +101,7 @@ export async function updateCartController(req, res){
                 console.error('Error al guardar la sesión:', err);
                 return res.status(500).send({ message: 'Error al guardar la sesión del usuario' });
             }
-            console.log('Sesión del usuario actualizada correctamente');
+            logger.info('Sesión del usuario actualizada correctamente');
         });
 
         res.json(updatedCart);

@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 import {randomUUID} from 'node:crypto'
+import { logger } from '../../utils/logger.js';
 import {productsDaoMongoose} from '../products/products.dao.mongoose.js';
 
 const cartSchema = new Schema({
@@ -64,7 +65,7 @@ const cartSchema = new Schema({
                     throw new Error('Product not found in cart')
                 }
             }catch(error){
-                console.log(error)
+                logger.info(error)
             }
         },
         updateProductQuantityFromCart: async function (cid, pid, quantity) {
@@ -84,7 +85,7 @@ const cartSchema = new Schema({
                     throw new Error('Product not found in cart');
                 }
             } catch (error) {
-                console.log(error);
+                logger.info(error);
                 throw error;
             }
         },

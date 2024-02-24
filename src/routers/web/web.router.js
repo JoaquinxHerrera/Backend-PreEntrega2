@@ -4,6 +4,7 @@ import { onlyLoggedWeb } from "../../middlewares/authorization.js";
 import { Cart } from "../../daos/carts/cart.dao.mongoose.js";
 import { sesionesRouter } from "./sesiones.router.js";
 import { usuariosRouter } from "./usuarios.router.js";
+import { logger } from "../../utils/logger.js";
 
 export const webRouter = Router()
 
@@ -35,7 +36,7 @@ webRouter.get('/products', async (req,res, next)=>{
         ...opcionesDePaginacion,
         sort: sortOptions 
     });
-    console.log(result)
+    logger.info(result)
     res.render('products.handlebars', {
         user: req.user,
         pageTitle: 'Products',
