@@ -16,3 +16,21 @@ export function onlyLoggedWeb (req, res, next){
     }
     next()
 }
+
+export function soloRoles(roles) {
+    return async function (req, res, next) {
+        if (req.user.rol === 'premium') {
+            return next();
+        }
+
+        
+        if (roles.some(role => req.user.rol === role)) {
+            return next();
+        }
+
+       
+        const typedError = new Error('special permission needed');
+        typedError['type'] = 'FAILED_AUTHORIZATION';
+        next(typedError);
+    }
+}

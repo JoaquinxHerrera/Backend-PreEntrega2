@@ -2,23 +2,26 @@ import passport from "passport"
 import { userService } from "../services/user.service.js"
 import { hashear } from "../utils/criptografia.js"
 
-export async function postUserController(req, res){
+export async function postUserController(req, res,  next){
     try {
-        req.body.password = hashear(req.body.password)
-        const user = await userService.create(req.body)
-
-        res.status(201).json({status: 'success', payload: user})
+        const user = await userService.createUser(req.body)
+        req.user = user
+        next()
     } catch (error) {
-        res.status(400).json({message: error.message})
+        next(error)
     }
 }
 
-export async function getUserController(req, res){
-    passport.authenticate("jwt", {failWithError: true}),
-    async (req, res) =>{
-        res.json({status: 'success', payload: req.user})
+export async function getUserController(req, res, next){
+    try {
+        const users = await userService.getUsers()
+        res.jsonOk(users)
+    } catch (error) {
+        next(error)
     }
+    
 }
+
 
 export async function putUserController(req, res){
     try {

@@ -6,7 +6,9 @@ import { webRouter } from './routers/web/web.router.js'
 import {sessions} from './middlewares/sesiones.js'
 import {MONGODB_CNX_STR, PORT} from './config.js'
 import axios from 'axios';
-import { initializePassport } from './middlewares/authentication.js'
+// import { initializePassport } from './middlewares/authentication.js'
+import { cookies } from './middlewares/cookies.js'
+import { authentication } from './middlewares/authentication.js'
 // import products from '../products.json' assert { type: 'json' }
 // import { Product } from './models/Product.js'
 
@@ -22,13 +24,17 @@ app.engine('handlebars', engine())
 app.listen(PORT, ()=>{
     console.log(`servidor escuchando peticiones en puerto: ${PORT}`)
 })
+
+app.use(cookies)
+app.use(authentication)
 app.use('/static', express.static('static'));
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
+
 app.use(sessions)
-initializePassport(app) 
+
 
 app.use('/api', apiRouter)
 app.use('/', webRouter)

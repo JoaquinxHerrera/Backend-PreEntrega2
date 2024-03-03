@@ -13,6 +13,7 @@ const productSchema = new Schema({
     code: {type: Number, required: true, unique: true},
     status: {type: Boolean},
     stock: {type: Number, min: 0, default: 0, required: true},
+    owner: { type: String, default: 'admin' }
 },{
     strict: 'throw',
     versionKey: false,

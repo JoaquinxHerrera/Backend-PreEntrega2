@@ -1,19 +1,15 @@
 import { Router } from "express";
 import passport from "passport";
+import { sessionsPost } from "../../controllers/sessions.controller.js";
 import { onlyLoggedRest } from "../../middlewares/authorization.js";
+import { deleteTokenFromCookie, tokenizeUserInCookie } from "../../middlewares/tokens.js";
 
 export const sesionesRouter = Router()
 
 sesionesRouter.post('/', 
-    passport.authenticate('loginLocal',{
-        failWithError: true
-    }),
-    async(req,res, next)=>{
-        res.status(201).json({status: 'success', message: 'Login success'})
-    },
-    (error,req,res,next)=> {
-        res.status(401).json({status:'error', message: error.message})
-    }    
+    sessionsPost,
+    tokenizeUserInCookie,
+    (req, res) => {res['created'](req['user'])}  
 );
 
 sesionesRouter.get('/current', onlyLoggedRest,(req, res)=>{
@@ -21,11 +17,7 @@ sesionesRouter.get('/current', onlyLoggedRest,(req, res)=>{
 
 })
 
-sesionesRouter.delete('/current', (req,res)=>{
-    req.session.destroy(err =>{
-        if (err){
-            return res.status(500).json({status: 'logout error', body: err});
-        }
-        res.json({status: 'success', message: 'Success log out'});
-    });
-});
+sesionesRouter.delete('/current',
+    deleteTokenFromCookie,
+    (req,res)=>{res['ok']()}
+);

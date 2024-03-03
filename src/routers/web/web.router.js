@@ -4,6 +4,7 @@ import { onlyLoggedWeb } from "../../middlewares/authorization.js";
 import { Cart } from "../../daos/carts/cart.dao.mongoose.js";
 import { sesionesRouter } from "./sesiones.router.js";
 import { usuariosRouter } from "./usuarios.router.js";
+import { restablecerContrasena, solicitarRecuperacionContrasena } from "../../controllers/passwordReset.controller.js";
 
 export const webRouter = Router()
 
@@ -13,6 +14,44 @@ webRouter.use(usuariosRouter)
 webRouter.get('/', async(req,res)=>{
     return res.redirect('/login')
 })
+
+webRouter.get('/recuperar-contrasena', async (req, res) => {
+    res.render('recuperar-contrasena.handlebars', { pageTitle: 'Recuperar Contraseña' });
+});
+
+webRouter.post('/recuperar-contrasena', async (req, res) => {
+    const { email } = req.body;
+    try {
+        await solicitarRecuperacionContrasena(email, res);
+        res.render('confirmacion-recuperacion.handlebars', { pageTitle: 'Recuperación Solicitada' });
+    } catch (error) {
+        console.error(error);
+        res.render('error.handlebars', { pageTitle: 'Error', error });
+    }
+});
+
+// Ruta para restablecer la contraseña con un token
+webRouter.get('/restablecer-contrasena/:token', async (req, res) => {
+    const { token } = req.params;
+    res.render('restablecer-contrasena.handlebars', { pageTitle: 'Restablecer Contraseña', token });
+});
+
+// Manejar la solicitud de restablecimiento de contraseña
+webRouter.post('/restablecer-contrasena/:token', async (req, res) => {
+    const { token } = req.params;
+    const { nuevaContrasena } = req.body;
+    try {
+        const resultado = await restablecerContrasena(token, nuevaContrasena);
+        if (resultado.success) {
+            res.render('confirmacion-restablecimiento.handlebars', { pageTitle: 'Contraseña Restablecida' });
+        } else {
+            res.render('error.handlebars', { pageTitle: 'Error', error: resultado.message });
+        }
+    } catch (error) {
+        console.error(error);
+        res.render('error.handlebars', { pageTitle: 'Error', error });
+    }
+});
 
 webRouter.get('/products', onlyLoggedWeb, async (req,res, next)=>{
     

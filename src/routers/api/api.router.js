@@ -5,6 +5,7 @@ import {sesionesRouter} from './sesiones.router.js'
 import {usuariosRouter} from './usuarios.router.js'
 import { errorHandler } from "../../middlewares/errorHandler.js"
 import { improvedAnswers } from "../../middlewares/improvedAnswers.js"
+import { respuestasHttp } from "../../middlewares/respuestasHttp.js"
 
 export const apiRouter = Router()
 
@@ -12,6 +13,8 @@ apiRouter.use(improvedAnswers)
 
 apiRouter.use(json())
 apiRouter.use(urlencoded({extended: true}))
+
+apiRouter.use(respuestasHttp)
 
 apiRouter.use('/products', productsRouter)
 apiRouter.use('/carts', cartsRouter)

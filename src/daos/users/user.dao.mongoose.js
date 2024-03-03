@@ -1,19 +1,24 @@
 import mongoose, { model } from "mongoose";
-import {randomUUID} from "node:crypto"
+// import {randomUUID} from "node:crypto"
 import { hasheadasSonIguales } from "../../utils/criptografia.js";
 
 
 const collection = 'users'
 
 const userSchema = new mongoose.Schema({
-    _id: {type: String, default: randomUUID},
+    _id: {type: String, required: true},
     email: {type: String, unique: true, required: true},
-    password: {type: String, default: '(no aplica)'},
-    name: {type: String, default: '(sin especificar)'},
-    surname: {type: String, default: '(sin especificar)'},
+    password: {type: String},// default: '(no aplica)'},
+    name: {type: String},// default: '(sin especificar)'},
+    surname: {type: String}//, default: '(sin especificar)'},
 }, {
     strict: 'throw',
     versionKey: false,
+    methods:{
+        toPojo: () =>{
+            return JSON.parse(JSON.stringify(this))
+        }
+    },
     statics:{
         login: async function (email, password) {
             let userData
@@ -47,7 +52,7 @@ const userSchema = new mongoose.Schema({
     }
 })
 
-export const User = mongoose.model(collection, userSchema)
+export const userDao = mongoose.model(collection, userSchema)
 
 class UserDaoMongoose {
     async create(data){
