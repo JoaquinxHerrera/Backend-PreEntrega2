@@ -18,3 +18,22 @@ export const COOKIE_OPTS = {
 };
 
 export const ADMIN_EMAIL = 'adminCoder@coder.com'
+
+export const DEFAULT_ROLE = 'user'
+
+export const MODE = process.env.MODE || 'development'
+
+export const EMAIL_USER = process.env.EMAIL_USER || 'test email user'
+export const EMAIL_PASS = process.env.EMAIL_PASS
+
+export const SWAGGER_CONFIG = {
+    definition: {
+      openapi: '3.0.1',
+      info: {
+        version: '1',
+        title: 'Swagger Demo',
+        description: 'Demo de swagger para coderhouse'
+      }
+    },
+    apis: ['./docs/**/*.yaml']
+  }

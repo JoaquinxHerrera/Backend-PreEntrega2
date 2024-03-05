@@ -4,6 +4,9 @@ import { onlyLoggedWeb } from "../../middlewares/authorization.js";
 import { Cart } from "../../daos/carts/cart.dao.mongoose.js";
 import { sesionesRouter } from "./sesiones.router.js";
 import { usuariosRouter } from "./usuarios.router.js";
+import swaggerJSDoc from "swagger-jsdoc";
+import swaggerUiExpress from "swagger-ui-express";
+import { SWAGGER_CONFIG } from "../../config.js";
 
 export const webRouter = Router()
 
@@ -69,3 +72,9 @@ webRouter.get('/carts/:cid', async(req, res)=>{
     });
 })
 
+ 
+const spec = swaggerJSDoc(SWAGGER_CONFIG)
+webRouter.use('/api-docs',
+  swaggerUiExpress.serve,
+  swaggerUiExpress.setup(spec)
+)

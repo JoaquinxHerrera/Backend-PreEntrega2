@@ -9,7 +9,8 @@ import axios from 'axios';
 import { connect } from './database/database.js'
 import cookieParser from 'cookie-parser'
 import { passportInitialize, passportSession } from './middlewares/authentication.js'
-
+// import swaggerJsdoc from 'swagger-jsdoc'
+// import swaggerUiExpress from 'swagger-ui-express'
 
 connect()
 
@@ -29,6 +30,19 @@ app.use(sessions)
 app.use(cookieParser(COOKIE_SECRET))
 app.use(passportInitialize, passportSession)
 
+
+const spec = swaggerJsdoc({
+    definition:{
+        openapi: '3.0.1',
+        info:{
+            version:'1',
+            tilte: 'Swagger Demo',
+            description:'Demo de swagger para coderhouse'
+        }
+    },
+    apis: ['./docs/**/*.yaml']
+})
+app.use('/api-docs', swaggerUiExpress.serve, swaggerUiExpress.setup(spec))
 
 app.use('/api', apiRouter)
 app.use('/', webRouter)

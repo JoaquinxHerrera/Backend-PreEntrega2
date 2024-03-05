@@ -2,7 +2,7 @@ import passport from "passport";
 import { Cart } from "../daos/carts/cart.dao.mongoose.js";
 import { Product } from "../daos/products/products.dao.mongoose.js";
 import { ticketDaoMongoose } from "../daos/tickets/ticket.dao.mongoose.js"
-import { User } from "../daos/users/user.dao.mongoose.js";
+
 
 export async function createOrderController(req, res){
     try{

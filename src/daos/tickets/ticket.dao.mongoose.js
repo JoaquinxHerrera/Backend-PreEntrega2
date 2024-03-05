@@ -1,7 +1,6 @@
 import { randomUUID } from "node:crypto";
 import { model, Schema } from "mongoose";
 import {v4 as uuidv4} from 'uuid'
-import { User } from "../users/user.dao.mongoose.js";
 import { Cart } from "../carts/cart.dao.mongoose.js";
 
 const ticketSchema = new Schema({

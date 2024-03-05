@@ -2,9 +2,9 @@ import passport from "passport";
 import { Strategy as LocalStrategy} from "passport-local";
 import {Strategy as GithubStrategy} from "passport-github2"
 import { COOKIE_OPTS, GITHUB_CALLBACK_URL, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, JWT_SECRET } from "../config.js";
-import { User } from "../daos/users/user.dao.mongoose.js";
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
 import { encrypt } from "../utils/criptografia.js";
+import { usersDao } from "../daos/users/users.dao.mongodb.js";
 
 export async function appendJwtAsCookie(req, res, next){
     try{
@@ -27,7 +27,7 @@ passport.use('localRegister', new LocalStrategy({
 },
     async (req, _u, _p, done)=>{
         try {
-            const userData = await User.register(req.body)
+            const userData = await usersDao.register(req.body)
             done(null, userData)
         } catch (error) {
             done(null, false, error.message)
@@ -40,7 +40,7 @@ passport.use('loginLocal', new LocalStrategy({
     }, 
     async function verificationCallback(username, password, done) {
     try {
-        const userData = await User.login(username, password)
+        const userData = await usersDao.login(username, password)
         done(null, userData)
     } catch (error) {
         done(error)
@@ -51,7 +51,7 @@ passport.use('loginGithub', new GithubStrategy({
     clientSecret: GITHUB_CLIENT_SECRET, 
     callbackURL: GITHUB_CALLBACK_URL
     }, async (_, __, profile, done) => {
-        const user = await User.findOne({email: profile.username})
+        const user = await usersDao.findOne({email: profile.username})
         // if(!user){
         //     await User.create({
         //         name: profile.displayName,
@@ -67,7 +67,7 @@ passport.use('loginGithub', new GithubStrategy({
         }
 
         try {
-            const registered = await User.register({
+            const registered = await usersDao.register({
                 first_name: profile.displayName,
                 last_name: '(not specified)',
                 email: profile.username,
@@ -90,23 +90,33 @@ export const passportSession = passport.session();
 
 
 passport.use("jwt", new JwtStrategy(
-      {
-        jwtFromRequest: ExtractJwt.fromExtractors([function (req) {
-            let token = null;
-            if (req?.signedCookies) {
-              token = req.signedCookies["auth"];
-            }
-            return token;
-          },
-        ]),
-        secretOrKey: JWT_SECRET,
+    {
+      jwtFromRequest: function (req) {
+        var token = null
+        if (req && req['signedCookies'] && req['signedCookies']['authorization']) {
+          token = req['signedCookies']['authorization']
+        }
+        return token
       },
-      function loginUser(user, done) {
-        // console.log(user)
-        done(null, user);
+      secretOrKey:  JWT_SECRET
+    },
+        (user, done) => {
+        done(null, user)
+    }
+));
+
+export async function authenticateWithJwt(req, res, next) {
+    passport.authenticate('jwt', { failWithError: true, session: false })(req, res, error => {
+      if (error) {
+        const typedError = new Error('error de autenticacion')
+        typedError['type'] = 'FAILED_AUTHENTICATION'
+        next(typedError)
+      } else {
+        next()
       }
-    )
-);
+    })
+  
+}
 
 export const authentication = passport.initialize()
 
