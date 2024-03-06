@@ -9,6 +9,9 @@ import axios from 'axios';
 import { connect } from './database/database.js'
 import cookieParser from 'cookie-parser'
 import { passportInitialize, passportSession } from './middlewares/authentication.js'
+import swaggerJSDoc from 'swagger-jsdoc'
+import swaggerUiExpress from 'swagger-ui-express'
+
 // import swaggerJsdoc from 'swagger-jsdoc'
 // import swaggerUiExpress from 'swagger-ui-express'
 
@@ -31,7 +34,7 @@ app.use(cookieParser(COOKIE_SECRET))
 app.use(passportInitialize, passportSession)
 
 
-const spec = swaggerJsdoc({
+const spec = swaggerJSDoc({
     definition:{
         openapi: '3.0.1',
         info:{

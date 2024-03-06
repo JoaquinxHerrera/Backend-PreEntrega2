@@ -1,0 +1,41 @@
+paths:
+  /api/carts:
+    post:
+      summary: crea un nuevo carrito
+      tags:
+      - Carts
+      - Products
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/requestBodies/CreateCartDto'
+      responses:
+        '201':
+          description: El nuevo carrito.
+          content:
+            application/json:
+              schema:
+                items: 
+                  $ref: '#/components/schemas/Cart'
+  /api/carts/{cid}/products/{pid}:
+    post:
+      summary: agregar un producto segun su id a un segun su id carrito
+      tags:
+      - Carts
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/requestBodies/UpdateCartDto'
+      responses:
+        '200':
+          description: Nuevo producto agregado a carrito.
+          content:
+            application/json:
+              schema:
+                items: 
+                  $ref: '#/components/schemas/Cart'
+

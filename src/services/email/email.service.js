@@ -1,22 +1,5 @@
 import { MODE } from '../../config.js'
 
-export class EmailService{
-
-  /**
-   * 
-   * @param {string} destinatario 
-   * @param {string} asunto 
-   * @param {string} mensaje 
-   * @param {Array} adjuntos 
-   */
-  async send(destinatario, asunto, mensaje, adjuntos = []){
-    throw new Error('MUST IMPLEMENT IN SUBCLASS')
-  }
-}
-
-/** 
- * @type {EmailService}
- */
 let emailService
 
 // @ts-ignore
@@ -29,4 +12,3 @@ if (MODE === 'prod') {
 }
 
 export { emailService }
-

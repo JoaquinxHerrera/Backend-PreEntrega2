@@ -1,0 +1,57 @@
+paths:
+  /api/carts/{cid}:
+    put:
+      summary: actualizar un  carrito segun id
+      tags:
+      - Carts
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        type: string
+        description: el id del carrito a actualizar
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/requestBodies/UpdateCartDto'
+      responses:
+        '200':
+          description: El nuevo carrito.
+          content:
+            application/json:
+              schema:
+                items: 
+                  $ref: '#/components/schemas/Cart'
+  /api/carts/{cid}/products/{pid}:
+    put:
+      summary: actualizar un producto existente en un carrito segun id
+      tags:
+      - Carts
+      - Products
+      parameters:
+      - name: cid
+        in: path
+        required: true
+        type: string
+        description: el id del carrito a actualizar
+      - name: pid
+        in: path
+        required: true
+        type: string
+        description: el id del producto a actualizar
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/requestBodies/UpdateCartDto'
+      responses:
+        '200':
+          description: El nuevo carrito.
+          content:
+            application/json:
+              schema:
+                items: 
+                  $ref: '#/components/schemas/Cart'

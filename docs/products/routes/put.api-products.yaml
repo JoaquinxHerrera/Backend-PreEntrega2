@@ -1,0 +1,26 @@
+paths:
+  /api/products/{pid}:
+    put:
+      summary: actualizar un  producto segun id
+      tags:
+      - Products
+      parameters:
+      - name: id
+        in: path
+        required: true
+        type: string
+        description: el id del producto a actualizar
+      requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/requestBodies/UpdateProductDto'
+      responses:
+        '200':
+          description: El nuevo producto.
+          content:
+            application/json:
+              schema:
+                items: 
+                  $ref: '#/components/schemas/Product'

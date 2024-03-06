@@ -1,0 +1,25 @@
+components:
+  requestBodies:
+    UpdateCartDto:
+      type: object
+      properties:
+        products:
+          type: Array
+          description: el contenido del carrito; 
+          required: true
+          properties:
+            product:
+              type: object
+              description: contenido del carrito
+              required: true
+              properties:
+                quantity: 
+                  type: Number
+                  description: cantidad del producto en el carrito
+                  required: true
+      example:
+        products: [
+          product: {
+            quantity: 23
+          }
+        ]

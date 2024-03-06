@@ -1,0 +1,30 @@
+paths:
+  /api/products:
+    get:
+      summary: devuelve todos los productos
+      tags:
+      - Products
+      responses:
+        "200":
+          description: Cada producto disponible.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+  /api/products/{pid}:
+    get:
+      summary: devuelve un producto segun su id
+      tags:
+      - Products
+      responses:
+        "200":
+          description: Producto segun id.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Product'
+

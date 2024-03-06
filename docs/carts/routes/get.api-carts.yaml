@@ -1,0 +1,29 @@
+paths:
+  /api/carts:
+    get:
+      summary: devuelve todos los carritos
+      tags:
+      - Carts
+      responses:
+        "200":
+          description: Cada carrito disponible.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cart'
+  /api/carts/{cid}:
+    get:
+        summary: devuelve un carrito segun el id especificado
+        tags:
+        - Carts
+        responses:
+          "200":
+            description: Carrito segun id.
+            content:
+              application/json:
+                schema:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Cart'

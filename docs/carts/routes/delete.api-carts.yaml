@@ -1,0 +1,11 @@
+  /api/carts/{cid}:
+    delete:
+      summary: borra el contenido del carrito segun su id
+      tags:
+        - Carts
+  /api/carts/{cid}/products/{pid}:
+    delete:
+      summary: borra un producto (segun su id) existente en un carrito segun su id
+      tags:
+      - Carts
+      - Products

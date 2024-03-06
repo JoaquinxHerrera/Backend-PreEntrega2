@@ -1,0 +1,29 @@
+components:
+  requestBodies:
+    CreateCartDto:
+      type: object
+      properties:
+        products:
+          type: Array
+          description: el contenido del carrito; 
+          required: true
+          properties:
+            product:
+              type: object
+              description: producto existente en el carrito
+              required: true
+              properties:
+                _id:
+                  type: string
+                  description: producto existente en el carrito
+                  required: true
+                quantity: 
+                  type: Number
+                  description: cantidad del producto en el carrito
+                  required: true
+      example:
+        products: 
+          product: 
+            _id: 'jf9u0as8f09a8sfzc'
+            quantity: 23
+        

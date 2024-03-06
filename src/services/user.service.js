@@ -1,7 +1,7 @@
 import { usersDao } from "../daos/users/users.dao.mongodb.js";
 import { User } from "../models/users.model.js";
 import { hashear } from "../utils/criptografia.js";
-import { emailService } from "./email/email.service.js";
+
 
 class UserService{
     async createUser(data){

@@ -1,0 +1,6 @@
+  /api/products/{pid}:
+    delete:
+      summary: elimina un producto segun su id
+      tags:
+        - Products
+ 

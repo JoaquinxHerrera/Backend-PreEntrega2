@@ -2,7 +2,7 @@ import { Router } from "express";
 import passport from "passport";
 import { deleteUserController, getUserController, postUserController, putUserController } from "../../controllers/user.controller.js";
 import { appendJwtAsCookie, authenticateWithJwt } from "../../middlewares/authentication.js";
-import { onlyLoggedRest } from "../../middlewares/authorization.js";
+import { onlyLoggedRest, soloRoles } from "../../middlewares/authorization.js";
 import { tokenizeUserInCookie } from "../../middlewares/cookies.js";
 ;
 

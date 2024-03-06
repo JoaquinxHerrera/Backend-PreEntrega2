@@ -1,0 +1,21 @@
+components:
+  requestBodies:
+    UpdateUserDto:
+      type: object
+      properties:
+        first_name:
+          type: String
+          description: el first_name del usuario;
+          required: true 
+        last_name:
+          type: String
+          description: el last_name del usuario;
+          required: true 
+        email:
+          type: String
+          description: el email del usuario;
+          required: true 
+      example:
+        first_name: 'joaquin'
+        last_name: ' herrera'
+        email: 'mail@mail.com'

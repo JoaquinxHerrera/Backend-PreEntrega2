@@ -1,0 +1,21 @@
+components:
+  requestBodies:
+    UpdateProductDto:
+      type: object
+      properties:
+        title:
+          type: String
+          description: el title del usuario;
+          required: true 
+        price:
+          type: Number
+          description: el price del usuario;
+          required: true 
+        stock:
+          type: Number
+          description: el stock del usuario;
+          required: true 
+      example:
+        title: 'Tv Smart'
+        price: ' 15000'
+        stock: '123'

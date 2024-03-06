@@ -1,14 +1,10 @@
 import nodemailer from 'nodemailer'
 import { EMAIL_PASS, EMAIL_USER } from '../../config.js'
-import { EmailService } from './email.service.js'
 
-class GmailEmailService extends EmailService {
-
-  #transport
+class GmailEmailService {
 
   constructor() {
-    super()
-    this.#transport = nodemailer.createTransport({
+    this.transport = nodemailer.createTransport({
       service: 'gmail',
       port: 587,
       auth: {
@@ -30,7 +26,7 @@ class GmailEmailService extends EmailService {
       emailOptions.attachments = adjuntos
     }
 
-    await this.#transport.sendMail(emailOptions)
+    await this.transport.sendMail(emailOptions)
   }
 }
 

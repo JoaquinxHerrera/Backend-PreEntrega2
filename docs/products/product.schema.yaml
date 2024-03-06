@@ -1,0 +1,26 @@
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        _id:
+          type: String
+          description: de _id del producto; 
+        title:
+          type: String
+          description: el nombre del producto; 
+        price:
+          type: Number
+          description: el precio del producto; 
+        code:
+          type: Number
+          description: el codigo del producto; 
+        stock:
+          type: Number
+          description: el stock del producto; 
+      example:
+        _id: 'jf19fsniapufbaisfb19'
+        title: 'Tv Smart'
+        price: ' 15000'
+        code: '1231'
+        stock: '123'

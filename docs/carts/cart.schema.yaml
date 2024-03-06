@@ -1,0 +1,31 @@
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: String
+          description: _id del carrito
+        products:
+          type: Array
+          description: el contenido del carrito; 
+          properties:
+            product:
+              type: object
+              description: productos existentes en el carrito
+              properties:
+                _id: 
+                  type: String
+                  description: _id del producto existente en el carrito
+                quantity: 
+                  type: Number
+                  description: cantidad del producto en el carrito
+      example:
+        _id: 'fsa09f8af09'
+        products: [
+          product: {
+            _id: 'jf9u0as8f09a8sfzc',
+            quantity: 23
+          }
+        ]
+        

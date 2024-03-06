@@ -1,0 +1,30 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        _id:
+          type: String
+          description: de _id del usuario; 
+        first_name:
+          type: String
+          description: el first_name del usuario; 
+        last_name:
+          type: String
+          description: el last_name del usuario; 
+        password:
+          type: String
+          description: el password del usuario; 
+        email:
+          type: String
+          description: el email del usuario; 
+        rol:
+          type: String
+          description: de rol del usuario; 
+      example:
+        _id: 'jf19fsniapufbaisfb19'
+        first_name: 'joaquin'
+        last_name: ' herrera'
+        password: '1231'
+        email: 'mail@mail.com'
+        rol: 'user'

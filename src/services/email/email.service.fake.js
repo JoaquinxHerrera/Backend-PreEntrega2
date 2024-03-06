@@ -1,7 +1,7 @@
-import { EMAIL_USER } from '../../config.js'
-import { EmailService } from './email.service.js'
+import { EMAIL_USER } from "../../config.js"
 
-class FakeEmailService extends EmailService{
+
+class FakeEmailService {
 
   async send(destinatario, asunto, mensaje, adjuntos = []) {
     const emailOptions = {
