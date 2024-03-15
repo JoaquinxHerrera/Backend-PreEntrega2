@@ -1,11 +1,12 @@
 import mongoose from "mongoose";
-import { MONGODB_CNX_STR } from "../config.js";
+import { MONGODB_CNX_STR } from "../config/config.js";
+import { logger } from "../utils/logger.js";
 
 
 export function connectDb() {
   mongoose.connect(MONGODB_CNX_STR);
-  return console.log(`DB conectada a ${MONGODB_CNX_STR}`);
+  return logger.info(`DB conectada a ${MONGODB_CNX_STR}`);
 }
 
-export { productsDaoMongoose } from "./products/products.dao.mongoose.js";
-export { cartsDaoMongoose } from "./carts/cart.dao.mongoose.js";
+export { productService } from "../services/index.js";
+export { cartService } from "../services/index.js";

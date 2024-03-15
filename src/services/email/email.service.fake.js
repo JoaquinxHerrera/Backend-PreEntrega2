@@ -15,7 +15,7 @@ class FakeEmailService {
       emailOptions.attachments = adjuntos
     }
 
-    console.log(JSON.stringify(emailOptions, null, 2))
+    logger.info(JSON.stringify(emailOptions, null, 2))
   }
 }
 

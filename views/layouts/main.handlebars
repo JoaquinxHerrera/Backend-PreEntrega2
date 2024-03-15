@@ -34,7 +34,7 @@
                 .then(response => response.json())
                 .then(data => {
                     // Manejar la respuesta del servidor, por ejemplo, renderizar los resultados
-                    console.log(data);
+                    logger.info(data);
                 })
                 .catch(error => console.error('Error:', error));
         }   

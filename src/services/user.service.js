@@ -1,42 +1,41 @@
-import { usersDao } from "../daos/users/users.dao.mongodb.js";
-import { User } from "../models/users.model.js";
-import { hashear } from "../utils/criptografia.js";
-
-
-class UserService{
+export class UserRepository{
+    constructor(dao){
+        this.dao = dao;
+    }
     async createUser(data){
-        try {
-            if (data.password) {
-              data.password = await hashear(data.password)
-            }
-            delete data.rol
+        const user = await this.dao.create(data)
+        return user;
+        // try {
+        //     if (data.password) {
+        //       data.password = await hashear(data.password)
+        //     }
+        //     delete data.rol
       
-            const user = new User(data)
+        //     const user = new User(data)
       
-            await usersDao.createOne(user.toPojo())
+        //     await this.dao.createOne(user.toPojo())
       
-            await emailService.send(user.email, 'bienvenida', 'gracias por registrarse!')
+        //     await emailService.send(user.email, 'bienvenida', 'gracias por registrarse!')
 
-            return user.toPojo()
-        } catch (error) {
-            const typedError = new Error(error.message)
-            typedError['type'] = 'INVALID_ARGUMENT'
-            throw typedError
-        }
+        //     return user.toPojo()
+        // } catch (error) {
+        //     const typedError = new Error(error.message)
+        //     typedError['type'] = 'INVALID_ARGUMENT'
+        //     throw typedError
+        // }
     }
     async getUsers(){
-        return await usersDao.readMany({})
+        return await this.dao.readMany({})
     }
     async getUserById(query){
-        const userById = await usersDao.readOne(query)
+        const userById = await this.dao.readOne(query)
         return userById
     }
-    async updateOne(id, data){
-        return await usersDao.updateOne(id, data)
+    async updateOne(id, query){
+        return await this.dao.updateOne(id, query)
     }
     async deleteOne(id){
-        return await usersDao.deleteOne(id)
+        return await this.dao.deleteOne(id)
     }
 }
 
-export const userService = new UserService()

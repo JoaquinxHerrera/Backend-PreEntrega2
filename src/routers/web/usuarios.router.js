@@ -1,6 +1,7 @@
 import { Router } from "express";
 import passport from "passport";
-import { onlyLoggedWeb } from "../../middlewares/authorization.js";
+import { onlyLoggedRest } from "../../middlewares/authorization.js";
+
 
 export const usuariosRouter = Router()
 
@@ -12,7 +13,7 @@ usuariosRouter.get('/resetpassword', function(req,res){
     res.render('resetpassword.handlebars', {pageTitle: 'Reset Password'})
 })
 
-usuariosRouter.get('/profile', onlyLoggedWeb, function(req,res){
+usuariosRouter.get('/profile', onlyLoggedRest, function(req,res){
     res.render('profile.handlebars', {pageTitle: 'Profile', ...req.user})
 })
 

@@ -1,27 +1,26 @@
 import { Schema, model } from 'mongoose';
 import {randomUUID} from 'node:crypto'
-import {productsDaoMongoose} from '../products/products.dao.mongoose.js';
+import { productService } from '../../services/index.js';
+
+
 
 const cartSchema = new Schema({
     _id: {type: String, default: randomUUID},
-    products: {
-        type: [
-          {
-            _id: false,
-            product: { type: String, ref: 'products' },
+    products: [
+        {
+            _id: { type: String, ref: 'products' },
             quantity: { type: Number, min:0, default: 1 }
-          }
-        ],
-        default: []
-      }
-},{
-    strict: false,
+        }      
+    ],   
+},
+{
+    strict: "false",
     versionKey: false,
     statics: {
         addProductToCart: async function(cid, pid){
             const initialQuantity = 1
             const cart = await model('carts', cartSchema).findById(cid)
-            const product = await productsDaoMongoose.readOne({_id: pid})
+            const product = await productService.getProductById(pid)
 
             const productIndexFind = cart.products.findIndex(
                 (p) => p._id === product._id
@@ -50,7 +49,7 @@ const cartSchema = new Schema({
         deleteProductFromCart: async function (cid, pid){
             try{
                 const cart = await model('carts', cartSchema).findById(cid)
-                const product = await productsDaoMongoose.readOne({_id: pid})
+                const product = await productService.getProductById({_id: pid})
 
                 const productIndexFind = cart.products.findIndex(
                     (p) => p._id === product._id
@@ -64,7 +63,7 @@ const cartSchema = new Schema({
                     throw new Error('Product not found in cart')
                 }
             }catch(error){
-                console.log(error)
+                logger.info(error)
             }
         },
         updateProductQuantityFromCart: async function (cid, pid, quantity) {
@@ -84,7 +83,7 @@ const cartSchema = new Schema({
                     throw new Error('Product not found in cart');
                 }
             } catch (error) {
-                console.log(error);
+                logger.info(error);
                 throw error;
             }
         },
@@ -92,31 +91,35 @@ const cartSchema = new Schema({
 })
 
 cartSchema.pre('find', function(next){
-    this.populate('products.product')
+    this.populate('products._id')
     next()
 })
 
-export const Cart = model('carts', cartSchema)
+export const cartManager = model('carts', cartSchema)
 
-class CartDaoMongoose{
+export class CartDaoMongoose{
     async create(data){
-        const cart = await Cart.create(data)
-        return cart.toObject()
+        const cart = await cartManager.create(data)
+        return cart
     }
     async readOne(id){
-        return await Cart.findOne({_id: id})
+        const cart = await cartManager.findOne({_id: id})
+        return cart;
     }
     async readMany(query){
-        return await Cart.find(query).lean()
+        return await cartManager.find(query)
     }
     async updateOne(id, data){
-        return await Cart.findByIdAndUpdate({_id: id}, {$set: data}, {new:true}).lean()
+        return await cartManager.findByIdAndUpdate({_id: id}, {$set: data}, {new:true})
     }
     async deleteOne(id){
-        return await Cart.findByIdAndDelete({_id: id}).lean()
+        return await cartManager.findByIdAndDelete({_id: id}).toObject()
+    }
+    async deleteMany(query){
+        return await cartsManager.deleteMany(query)
     }
 }
 
-export const cartsDaoMongoose = new CartDaoMongoose()
+
 
 

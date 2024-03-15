@@ -1,11 +1,13 @@
 import {connect as connectToMongoose} from 'mongoose'
-import { MODO_EJECUCION, MONGODB_CNX_STR } from "../config.js";
+import { MODO_EJECUCION, MONGODB_CNX_STR } from '../config/config.js'
+import { logger } from '../utils/logger.js'
+
 
 export async function connect(){
     if(MODO_EJECUCION === 'online') {
         await connectToMongoose(MONGODB_CNX_STR)
-        console.log('connected to mongodb')
+        logger.info('connected to mongodb')
     }else{
-        console.log('trabajando con persistencia local')
+        logger.info('trabajando con persistencia local')
     }
 }

@@ -57,7 +57,7 @@ class ProductsDaoFiles {
 }
 
 const productsDaoFiles = new ProductsDaoFiles('./db/products.json')
-console.log('usando persistencia en sistema de archivos')
+logger.info('usando persistencia en sistema de archivos')
 
 export async function getDaoFiles(){
     return productsDaoFiles

@@ -12,17 +12,7 @@ export function onlyLoggedRest (req, res, next){
     next()
 }
 
-export function onlyLoggedWeb (req, res, next){
-    if (!req.isAuthenticated()){
-        return res
-            .status(403)
-            .json({
-                status: 'error',
-                message: 'You need to login'
-            })
-    }
-    next()
-}
+
 
 export function isAdmin(req, res, next){
     if( req.user.rol === 'admin'){
@@ -39,6 +29,14 @@ export function isUser(req, res, next){
         return res.status(403).json({message: 'You need to be logged in'})
     }
 }
+export function isPremium(req, res, next) {
+    if (req.user.rol !== "use" && req.user.rol !== "premium") {
+      res.status(403).json({message: 'You need to be logged in'})
+    }
+    next();
+}
+
+
 
 export async function authenticate(req, res, next){
     try{

@@ -1,9 +1,9 @@
 import { hashSync, compareSync, genSaltSync } from "bcrypt";
 import jwt from 'jsonwebtoken'
-import { JWT_SECRET } from "../config.js";
+import { JWT_SECRET } from "../config/config.js";
 
-export function hashear(frase) {
-    return hashSync(frase, genSaltSync(10))
+export function hashear(password) {
+    return hashSync(password, genSaltSync(10))
 }
 
 export function hasheadasSonIguales(recibida, almacenada){
@@ -19,6 +19,21 @@ export async function encrypt(data){
             if(error){
                 reject(error)
             } else {
+                resolve(encoded)
+            }
+        })
+    })
+}
+
+export function encryptOneHour(data){
+    return new Promise((resolve, reject)=>{
+        if(!data){
+            reject(new Error("Invalid data for encrypytion"));
+        }
+        jwt.sign(data, JWT_SECRET, {expiresIn: "1h"}, (err, encoded) =>{
+            if(err){
+                reject(err);
+            } else{
                 resolve(encoded)
             }
         })

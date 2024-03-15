@@ -1,3 +1,5 @@
+import { logger } from "../utils/logger.js"
+
 export function errorHandler(error, req, res, next) {
     switch (error.type) {
         case 'INVALID_ARGUMENT':
@@ -13,10 +15,9 @@ export function errorHandler(error, req, res, next) {
           res.status(500)
           break
         default:
-          console.log('no se que pasó! error desconocido/inesperado!')
-          console.log(JSON.stringify(error, null, 2))
           res.status(500)
       }
+      logger.error(`status ${res.status} - message: ${error.message}`);
       res.json({
         status: 'error',
         message: error.message

@@ -1,27 +1,28 @@
-import { productsDaoMongoose } from "../daos/products/products.dao.mongoose.js"
 
-class ProductService{
+export class ProductRepository{
+    constructor(dao){
+        this.dao = dao;
+    }
     async getProducts(){
-        return await productsDaoMongoose.readMany({})
+        return await this.dao.readMany({})
     }
 
-    async getProductById(id){
-        const productById = await productsDaoMongoose.readOne({_id: id})
+    async getProductById(pid){
+        const productById = await this.dao.readOne({_id: pid})
         return productById
     }
 
-    async addProduct(productData){
-        const product = await productsDaoMongoose.create(productData)
+    async addProduct(productData, ownerId){
+        const product = await this.dao.create(productData, ownerId)
         return product
     }
 
-    async updateProduct(id, data){
-        return productsDaoMongoose.updateOne(id, data)
+    async updateProduct(id, productData){
+        return this.dao.updateOne(id, productData)
     }
 
     async deleteProduct(id){
-        return productsDaoMongoose.deleteOne(id)
+        return this.dao.deleteOne(id)
     }
 }
 
-export const productService = new ProductService()

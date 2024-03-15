@@ -1,5 +1,7 @@
-import { Product } from "../daos/products/products.dao.mongoose.js";
-import { productService } from "../services/products.service.js";
+import { productService } from "../daos/mongodb.js"
+import { productManager } from "../daos/products/products.dao.mongoose.js"
+
+
 
 
 export async function getController  (req, res, next){
@@ -21,7 +23,7 @@ export async function getController  (req, res, next){
     }
 
     try {
-        const data = await Product.paginate(query, {
+        const data = await productManager.paginate(query, {
             ...paginationOptions,
             sort: sortOptions 
         });
@@ -56,8 +58,8 @@ export async function getIdController (req, res){
 
 export async function postController(req, res){
     try{
-        const product = await productService.addProduct(req.body)
-        res.result(product)
+        const product = await productService.addProduct(req.body, req.user.email )
+        res.status(200).json(product)
     }catch (error) {
         res.status(400).json({message: error.message})
     }
@@ -77,8 +79,8 @@ export async function putController(req, res){
 export async function deleteController(req, res){
     const {id} = req.params
     try{
-        await productService.deleteProduct(id)
-        res.json(req.body)
+        const product = await productService.deleteProduct(id)
+        res.json(product)
     }catch(error){
         res.status(404).json({message: error.message})
     }

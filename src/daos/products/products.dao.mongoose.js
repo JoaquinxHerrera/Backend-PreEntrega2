@@ -1,7 +1,8 @@
-import { Schema, model, connect } from 'mongoose';
+import { Schema, model } from 'mongoose';
 import {randomUUID} from 'node:crypto'
 import mongoosePaginate from 'mongoose-paginate-v2'
-import { MONGODB_CNX_STR } from '../../config.js';
+import {v4 as uuidv4} from 'uuid'
+
 
 const productSchema = new Schema({
     _id: {type: String, default: randomUUID},
@@ -9,10 +10,11 @@ const productSchema = new Schema({
     price: {type: Number, min: 0, default: 0, required: true},
     category: {type: String},
     description: {type: String},
-    image: {type: String},
-    code: {type: Number, required: true, unique: true},
+    thumbnail: {type: String},
+    code: {type: String, default: uuidv4},
     status: {type: Boolean},
     stock: {type: Number, min: 0, default: 0, required: true},
+    owner: {type: String, default: "admin"},
 },{
     strict: 'throw',
     versionKey: false,
@@ -20,34 +22,38 @@ const productSchema = new Schema({
 
 productSchema.plugin(mongoosePaginate)
 
-export const Product = model('products', productSchema)
+export const productManager = model('products', productSchema)
 
-class ProductsDaoMongoose{
-    async create(data) {
-      const product = await Product.create(data)
-      return product.toObject()
+export class ProductsDaoMongoose{
+    async create(data, ownerId) {
+      const product = await productManager.create(data)
+      const productWithOwner = await productManager.findOneAndUpdate(
+        {_id: product._id},
+        {$set: {owner: ownerId}},
+        {new: true}
+      )
+      return productWithOwner.toObject();
     }
 
-    async readOne(id) {
-      return await Product.findOne({_id: id}).lean()
+    async readOne(pid) {
+      return await productManager.findOne({_id: pid}).lean()
     }
 
     async readMany(query) {
-      return await Product.find(query).lean()
+      return await productManager.find(query).lean()
     }
 
     async updateOne(id, data) {
-      return await Product.findOneAndUpdate({_id: id}, {$set: data}, {new:true}).lean()
+      return await productManager.findOneAndUpdate({_id: id}, {$set: data}, {new:true}).lean()
     }
 
     async deleteOne(id) {
-      return await Product.findOneAndDelete({_id: id}).lean()
+      return await productManager.findOneAndDelete({_id: id}).lean()
     }
 
    
 }
 
-export const productsDaoMongoose = new ProductsDaoMongoose()
 
 
 

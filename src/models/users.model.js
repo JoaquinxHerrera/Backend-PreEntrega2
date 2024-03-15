@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto'
-import { DEFAULT_ROLE } from '../config.js'
+import { DEFAULT_ROLE } from '../config/config.js'
 
 
 export class User {
@@ -26,7 +26,6 @@ export class User {
       password: this.password,
       last_name: this.last_name,
       email: this.email,
-      foto: this.foto,
       rol: this.rol,
     }
   }

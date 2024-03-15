@@ -1,24 +1,23 @@
-import { cartsDaoMongoose } from "../daos/carts/cart.dao.mongoose.js";
-
-
-class CartService {
+export class CartRepository {
+    constructor(dao){
+        this.dao = dao;
+    }
     async createCart(data){
-        const cart = await cartsDaoMongoose.create(data)
+        const cart = await this.dao.create(data)
         return cart
     }
     async getCarts(){
-        return await cartsDaoMongoose.readMany({})
+        return await this.dao.readMany({})
     }
     async getCartById(id){
-        const cartById = await cartsDaoMongoose.readOne(id)
+        const cartById = await this.dao.readOne(id)
         return cartById
     }
     async updateOneCart(id, data){
-        return cartsDaoMongoose.updateOne(id, data)
+        return this.dao.updateOne(id, data)
     }
     async deleteOneCart(id){
-        return cartsDaoMongoose.deleteOne(id)
+        return this.dao.deleteOne(id)
     }
 }
 
-export const cartService = new CartService()
