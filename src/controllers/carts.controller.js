@@ -1,65 +1,45 @@
-
-import { isErrored } from "stream";
 import {cartManager } from "../daos/carts/cart.dao.mongoose.js"
-import { productManager } from "../daos/products/products.dao.mongoose.js";
 import { cartService, productService, ticketService, userService } from "../services/index.js";
-
-
-
-
 
 export async function createOrderController(req, res){
     const { cid } = req.params;
     try {
-      // Obtiene el carrito y el usuario correspondiente a ese carrito
       const cart = await cartService.getCartById({ _id: cid });
       const user = await userService.getUsers({ cart: cid });
-  
-      // Crea una lista de productos, la rellena y lo muestra por consola
       let productList = [];
-  
-      // Array para almacenar los IDs de los productos que no se pudieron comprar
       let outOfStockProducts = [];
-  
-      // Añade la cantidad y los productos a productList y comprueba el stock
+
       await Promise.all(
         cart.products.map(async (product) => {
           const productsFounded = await productService.getProductById(
             product._id
           );
           if (productsFounded.stock >= product.quantity) {
-            // Si hay suficiente stock, resta la cantidad comprada al stock del producto
             await productService.updateProduct(product._id, {
               stock: productsFounded.stock - product.quantity,
             });
             productsFounded.quantity = product.quantity;
             productList.push(productsFounded);
           } else {
-            // Si no hay suficiente stock, agrega el ID del producto al array de productos sin stock
             outOfStockProducts.push(product._id);
           }
         })
       );
   
-      // Filtra el carrito original para quedarse solo con los productos sin stock
       const updatedProducts = cart.products.filter((product) =>
         outOfStockProducts.includes(product._id)
       );
   
-      // Actualiza el carrito en la base de datos
       await cartService.updateOneCart(cid, {products: updatedProducts});
-      // Calcula el total gastado en la compra
       const total = productList.reduce(
         (accumulator, currentProduct) =>
           accumulator + currentProduct.price * currentProduct.quantity,
         0
       );
-      // Instancia el ticket
       const ticket = await ticketService.createTicket({
         amount: total,
         purchaser: user[0].email,
       });
-      // Retorna el ticket generado y el array de IDs de productos sin stock
       res.status(200).send({ ticket, outOfStockProducts });
     } catch (error) {
       res.status(500).json({ message: error.message });
@@ -118,8 +98,6 @@ export async function postIdController(req,res, next){
             if (!cart) {
                 return res.status(404).json({ status: "error", message: "Cart not found" });
             }
-
-            // Agregar el producto al carrito
             await cartManager.addProductToCart(cid, pid);
             return res.status(201).json({ message: `Product with ID ${pid} added to cart` });
         } else {
