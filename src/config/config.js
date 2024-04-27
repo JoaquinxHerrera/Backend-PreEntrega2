@@ -3,7 +3,7 @@ import dotenv from 'dotenv'
 dotenv.config()
 
 export const PORT = 8080
-export const MONGODB_CNX_STR = 'mongodb+srv://joacoherrera98:PreEntrega2@cluster0.a33vlyl.mongodb.net/'
+export const MONGODB_CNX_STR = process.env.MONGODB_CNX_STR
 export const SESSION_SECRET = 'SecretSession'
 
 export const GITHUB_APP_ID = process.env.GITHUB_APP_ID
@@ -24,7 +24,7 @@ export const COOKIE_OPTS = {
 export const ADMIN_EMAIL = 'adminCoder@coder.com'
 
 export const DEFAULT_ROLE = 'user'
-export const EMAIL_USER = process.env.EMAIL_USER || 'test email user'
+export const EMAIL_USER = process.env.EMAIL_USER 
 export const EMAIL_PASS = process.env.EMAIL_PASS
 
 export const SWAGGER_CONFIG = {
