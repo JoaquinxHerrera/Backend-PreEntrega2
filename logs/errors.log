@@ -6407,3 +6407,7 @@
 {"level":"info","message":"connected to mongodb"}
 {"level":"info","message":"servidor escuchando peticiones en puerto: 8080"}
 {"level":"info","message":"connected to mongodb"}
+{"level":"info","message":"servidor escuchando peticiones en puerto: 8080"}
+{"level":"info","message":"connected to mongodb"}
+{"level":"info","message":{"_id":"ab97f0a8-0326-4873-a281-15158502e98c","age":0,"cart":"68925b83-e8a7-4472-96ee-1554dcb18a6a","email":"prueba@prueba.com","exp":1714311420,"first_name":"prueba","iat":1714225020,"last_connection":"2024-04-27T13:37:00.000Z","last_name":"(sin especificar)","password":"$2b$10$5VH/RVYVIUDEUPQM2QeUPeMViPmjQQsnjlElMDh1OBu4JTaHUrhoG","rol":"premium"}}
+{"level":"info","message":{"_id":"ab97f0a8-0326-4873-a281-15158502e98c","age":0,"cart":"68925b83-e8a7-4472-96ee-1554dcb18a6a","email":"prueba@prueba.com","exp":1714311420,"first_name":"prueba","iat":1714225020,"last_connection":"2024-04-27T13:37:00.000Z","last_name":"(sin especificar)","password":"$2b$10$5VH/RVYVIUDEUPQM2QeUPeMViPmjQQsnjlElMDh1OBu4JTaHUrhoG","rol":"premium"}}
