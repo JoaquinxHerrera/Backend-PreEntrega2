@@ -1,23 +1,31 @@
 <h1>{{ pageTitle }}</h1>
-    
-    <h2>Products in Cart:</h2>
-    <ul>
-        {{#each cart.products}}
-            <li>
-                <div>
-                    {{this.product.title}}
-                </div>
-                <div>
-                    <img src="" alt="">
-                </div>
-                <div>
-                    Price: ${{this.product.price}}
-                </div>
-                <div>
-                    Quantity: {{this.quantity}}
-                </div>
-                <a href="/products/{{this.product._id}}">See datails</a>
-            </li>
-            
+
+<h2>Products in Cart:</h2>
+{{#if productsInCart}}
+<table>
+    <thead>
+        <tr>
+            <th>Product ID</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <!-- Agrega más columnas según sea necesario -->
+        </tr>
+    </thead>
+    <tbody>
+        {{#each products}}
+        <tr>
+            <td>{{ this.productId }}</td> 
+            <td>{{ this.quantity }}</td> 
+            <td onClick="deleteItem('{{this.cartId}}','{{this.productId}}')">❌</td> 
+        </tr>
         {{/each}}
-    </ul>
+    </tbody>
+</table>
+<button onclick="checkout('{{cartId}}')">Checkout</button>
+<button onclick="clearCart('{{cartId}}')">Clear Cart</button>
+
+{{else}}
+Your cart is empty...
+{{/if}}
+
+<script src="/static/js/cart.js"></script>

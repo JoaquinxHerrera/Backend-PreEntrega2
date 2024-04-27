@@ -4,3 +4,6 @@ export function getTokenFromCookie(cookieName = "auth") {
       next();
     };
 }
+
+
+

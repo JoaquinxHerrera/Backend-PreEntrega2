@@ -1,0 +1,31 @@
+<h1>User List</h1>
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Last Connection</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        {{#each users}}
+        <tr>
+            <td>{{_id}}</td>
+            <td>{{email}}</td>
+            <td>{{first_name}}</td>
+            <td>{{last_name}}</td>
+            <td>{{last_connection}}</td>
+            <td>{{rol}}<span class="usersBtn" onclick="switchUsersRole('{{_id}}')">🔁</span></td>
+            <td> <span class="usersBtn" onclick="deleteUser('{{_id}}')">Delete User❌</span></td>
+        </tr>
+        {{/each}}
+    </tbody>
+</table>
+<button onclick="deleteInactiveUsers()">Clear inactive users</button>
+
+<script src="/static/js/users.js"></script>
+
+

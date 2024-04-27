@@ -1,8 +1,9 @@
 
+import { isErrored } from "stream";
 import {cartManager } from "../daos/carts/cart.dao.mongoose.js"
 import { productManager } from "../daos/products/products.dao.mongoose.js";
 import { cartService, productService, ticketService, userService } from "../services/index.js";
-import { logger } from "../utils/logger.js";
+
 
 
 
@@ -81,35 +82,53 @@ export async function getCartsController(req, res){
 
 export async function getCartByIdController(req, res){
     const {cid} = req.params
+    const user = req.user
     try{
         const cartById = await cartService.getCartById(cid)
+        if(cartById.owner !== user._id && user.rol !== "admin"){
+            return res.status(403).json({ message: 'You are not authorized to access this cart.' });
+        }
         return res.status(200).json({cartById})
     } catch(error){
         res.status(404).json({message: error.message})
     } 
 }
 
-export async function postCartController(req, res){
+export async function postCartController(req, res, next){
     try{
-        const cart = await cartService.createCart(req.body)
-        res.created(cart)
+        const ownerId = req.user._id
+        const cart = await cartService.createCart(ownerId)
+        res.status(201).json(cart)
     }catch(error){
-        res.status(400).json({message: error.message})
+        next(error)
     } 
 }
 
-export async function postIdController(req,res){
+export async function postIdController(req,res, next){
     const {cid, pid} = req.params
-    const user = req.user
+    
     try {
-        if (user.cart !== cid) {
-            return res.status(401).send({ message: 'Unauthorized: Cart does not belong to the user' });
+        const userEmail = req.user.email;
+        console.log(`user email: ${userEmail}`);
+        const product = await productService.getProductById(pid);
+        console.log(`owner del producto: ${product.owner}`);
+        const productOwner = product.owner;
+        if (userEmail !== productOwner) {
+            const cart = await cartManager.findById(cid);
+            if (!cart) {
+                return res.status(404).json({ status: "error", message: "Cart not found" });
+            }
+
+            // Agregar el producto al carrito
+            await cartManager.addProductToCart(cid, pid);
+            return res.status(201).json({ message: `Product with ID ${pid} added to cart` });
+        } else {
+            return res.status(401).json({ status: "error", message: "Unauthorized: You can't buy your own products" });
         }
-        await cartManager.addProductToCart(cid, pid);
-        return res.send(`Product ID: ${pid} added to cart ID: ${cid}`)
+        
         
     }catch(error){
-        res.status(400).send({message: error.message})
+        next(error)
     }
 }
 
@@ -117,7 +136,8 @@ export async function deleteCartController(req, res){
     const {cid} = req.params
     const user = req.user
     try{
-        if (user.cart !== cid) {
+        const cartById = await cartService.getCartById(cid)
+        if (cartById.owner !== user._id) {
             return res.status(401).send({ message: 'Unauthorized: Cart does not belong to the user' });
         }
         await cartService.updateOneCart(cid, {products: []})
@@ -127,11 +147,16 @@ export async function deleteCartController(req, res){
     }
 }
 
-export async function deleteProductOnCartController(req, res){
+export async function deleteProductOnCartController(req, res, next){
     const {cid, pid} = req.params;
     const user = req.user
     try{
-        if (user.cart !== cid) {
+        const cartById = await cartService.getCartById(cid)
+        if (!cartById) {
+            return res.status(404).send({ message: 'Cart not found' });
+        }
+
+        if (cartById.owner !== user._id) {
             return res.status(401).send({ message: 'Unauthorized: Cart does not belong to the user' });
         }
         const cart = await cartService.getCartById(cid)
@@ -145,7 +170,7 @@ export async function deleteProductOnCartController(req, res){
             res.status(200).send(`product deleted id: ${pid}`)
         }
     }catch(error){
-        res.status(500).json()
+        next(error)
     }
 }
 
@@ -153,11 +178,22 @@ export async function updateCartController(req, res){
     const {cid} = req.params
     const user = req.user
     try {
-        if (user.cart !== cid) {
+        const cartById = await cartService.getCartById(cid)
+        if (cartById.owner !== user._id ) {
             return res.status(401).send({ message: 'Unauthorized: Cart does not belong to the user' });
         }
-        await cartService.updateOneCart(cid, { products: [] });
-        await cartService.updateOneCart(cid, { products: req.body });
+        const updatedProducts = req.body.map(product=>{
+            if (product._id !== cartById.products.find(p => p._id === product._id)._id) {
+                throw new Error('Product ID cannot be modified.');
+            }
+            
+            if(product.quantity < 0){
+                throw new Error('Product quantity cannot be negative.')
+            }
+            return product
+        })
+        
+        await cartService.updateOneCart(cid, { products: updatedProducts });
         res.status(201).json(cid);
     } catch (error) {
         res.status(404).send({ message: error.message });
@@ -170,7 +206,7 @@ export async function updateProductOnCartController(req, res){
     const user = req.user
 
     try {
-        if (user.cart !== cid) {
+        if (user.cart !== cid ) {
             return res.status(401).send({ message: 'Unauthorized: Cart does not belong to the user' });
         }
         const cart = await cartService.getCartById(cid)
@@ -182,17 +218,10 @@ export async function updateProductOnCartController(req, res){
             return res.status(404).send({ message: 'Product not found' });
         }
         
-        const updatedCart = await cartService.updateOneCart(
-            {
-                _id: cart._id,
-                "products._id": product._id,
-            },
-            {
-                $set: {
-                  "products.$.quantity": quantity,
-                },
-            }
-        )
+        if(quantity < 0){
+            return res.status(404).send({message: 'Product quantity cannot be negative.'})
+        }
+        const updatedCart = await cartService.updateProductQuantity(cid, pid, quantity)
 
         if(updatedCart){
             return res.status(200).send('Quantity updated')

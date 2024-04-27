@@ -1,18 +1,20 @@
 import mongoose from "mongoose";
 import { randomUUID } from "node:crypto";
+import { userService } from "../../services/index.js";
 import { hasheadasSonIguales } from "../../utils/criptografia.js";
 import { cartService } from "../mongodb.js";
 const collection = "users";
 const userSchema = new mongoose.Schema(
   {
     _id: {type: String, default: randomUUID},
-    email: {type: String, unique: true, required: true},
+    email: {type: String, unique: true, required: true, immutable: true},
     password: {type: String, default: '(no aplica)'},
     first_name: {type: String, default: '(sin especificar)'},
     last_name: {type: String, default: '(sin especificar)'},
     age: { type: Number, default: 0 },
-    cart: { type: Object, ref: 'carts', required: true },
-    rol: { type: String, enum: ['user', 'admin', 'premium'], default: "user" }
+    cart: { type: Object, ref: 'carts', required: false },
+    rol: { type: String, enum: ['user', 'admin', 'premium'], default: "user" },
+    last_connection: {type: Date}
   },
   {
     strict: "throw",
@@ -29,8 +31,9 @@ const userSchema = new mongoose.Schema(
                     rol: 'admin'
                 }
             }else {
-                const user = await mongoose.model(collection).findOne({email}).lean()
-        
+                let user = await mongoose.model(collection).findOne({email}).lean()
+                let connectionUpdated = await userService.updateOne(user._id, { $set: {last_connection: Date(Date.now).toLocaleString()}})
+                user = connectionUpdated
                 if (!user){
                     throw new Error('Login failed')
                 }
@@ -47,6 +50,7 @@ const userSchema = new mongoose.Schema(
                     age: user['age'],
                     cart: user['cart'],
                     rol: user['rol'],
+                    last_connection: user['last_connection']
                 }
             }
             return userData
@@ -55,6 +59,8 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+
+
 export const usersManager = mongoose.model(collection, userSchema);
 
 export class UsersDaoMongoose {
@@ -62,6 +68,7 @@ export class UsersDaoMongoose {
     const newUserCart = await cartService.createCart();
     data.cart = newUserCart;
     const user = await usersManager.create(data);
+    await cartService.updateCartOwner(newUserCart._id, user._id);
     return user.toObject();
   }
   async readOne(query) {
@@ -75,5 +82,8 @@ export class UsersDaoMongoose {
   }
   async deleteOne(id) {
     return await usersManager.findOneAndDelete({ _id: id }).lean();
+  }
+  async deleteMany(query){
+    return await usersManager.deleteMany(query).lean()
   }
 }

@@ -1,11 +1,13 @@
 import { Schema, model } from 'mongoose';
 import {randomUUID} from 'node:crypto'
 import { productService } from '../../services/index.js';
+import { logger } from '../../utils/logger.js';
 
 
 
 const cartSchema = new Schema({
     _id: {type: String, default: randomUUID},
+    owner: { type: String, required: false }, 
     products: [
         {
             _id: { type: String, ref: 'products' },
@@ -14,7 +16,7 @@ const cartSchema = new Schema({
     ],   
 },
 {
-    strict: "false",
+    strict: "throw",
     versionKey: false,
     statics: {
         addProductToCart: async function(cid, pid){
@@ -49,13 +51,13 @@ const cartSchema = new Schema({
         deleteProductFromCart: async function (cid, pid){
             try{
                 const cart = await model('carts', cartSchema).findById(cid)
-                const product = await productService.getProductById({_id: pid})
+                const product = await productService.getProductById(pid)
 
                 const productIndexFind = cart.products.findIndex(
                     (p) => p._id === product._id
                 )
     
-                if(productIndexFind === -1){
+                if(productIndexFind !== -1){
                     cart.products.splice(productIndexFind, 1)
                     await cart.save()
                     return cart
@@ -64,6 +66,7 @@ const cartSchema = new Schema({
                 }
             }catch(error){
                 logger.info(error)
+                throw error;
             }
         },
         updateProductQuantityFromCart: async function (cid, pid, quantity) {
@@ -87,6 +90,9 @@ const cartSchema = new Schema({
                 throw error;
             }
         },
+        updateCartOwner: async function(cartId, ownerId) {
+            return await model('carts').findByIdAndUpdate(cartId, { owner: ownerId }, { new: true });
+        }
     },
 })
 
@@ -94,6 +100,7 @@ cartSchema.pre('find', function(next){
     this.populate('products._id')
     next()
 })
+
 
 export const cartManager = model('carts', cartSchema)
 
@@ -116,7 +123,7 @@ export class CartDaoMongoose{
         return await cartManager.findByIdAndDelete({_id: id}).toObject()
     }
     async deleteMany(query){
-        return await cartsManager.deleteMany(query)
+        return await cartManager.deleteMany(query)
     }
 }
 

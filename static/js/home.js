@@ -1,46 +1,35 @@
-let products = []
+async function addToCart(productId) {    
+    const response = await fetch('/api/sessions/current')
+    const result = await response.json()
 
-window.onload = updateProducts
-
-async function updateProducts(){
     try{
-        const products = await getProducts()
-        showProducts(products)
+        const cartId = result.cart; 
+        if(!cartId){
+            alert("Log in to add products to cart")
+            return
+        }
+        fetch(`/api/carts/${cartId}/products/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                productId: productId,
+            }),
+        })
+        Toastify({
+            text: "Product added to cart!",
+            duration: 3000,
+            style: {
+                background: "linear-gradient(to right, #00b09b, #96c93d)",
+                padding: "0.3em 1em",
+                
+            },
+        }).showToast();
+                
     }catch(error){
-        alert(error.message)
-    }
+        alert("Failed to add product to cart")
+        throw error;
+    } 
 }
-
-async function getProducts(){
-    const res = await fetch('/api/products')
-    const obj = await res.json()
-    products = obj.payload
-    return products
-}
-
-function showProducts(products){
-    //@ts-ignore
-    document.querySelector('#productList').innerHTML =
-    products.map(p => `- ${p.title} $${p.price}`).join('<br>')
-}
-
-const formAddProduct = document.querySelector('form')
-formAddProduct?.addEventListener('submit', async event =>{
-    event.preventDefault()
-
-    const response = await fetch('/api/products', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        },
-        //@ts-ignore
-        body: new URLSearchParams(new FormData(formAddProduct))
-    })
-
-    if (response.status === 201){
-        updateProducts()
-    }else {
-        const error = await response.json()
-        alert(error.message)
-    }
-})
+   

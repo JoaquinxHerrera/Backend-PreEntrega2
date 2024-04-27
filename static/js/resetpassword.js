@@ -1,6 +1,6 @@
 const formResetPassword = document.querySelector('form')
 
-formResetPassword?.addEventListener('submit', async event =>{
+formResetPassword?.addEventListener('submit', async (event) =>{
     event.preventDefault()
     
     const response = await fetch('/api/users', {

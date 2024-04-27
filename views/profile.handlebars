@@ -1,9 +1,13 @@
 <div class="login">
     <h1>Profile</h1>
-    <p>Name:{{first_name}}</p>
-    <p>Surname: <span id="last_name"></span>{{last_name}}</p>
-    <p>Email: <span id="email"></span>{{email}}</p>
+    <p>Name: {{first_name}}</p>
+    <p>Surname: {{last_name}}</p>
+    <p>Email: {{email}}</p>
+    <p>Role: {{rol}}</p>
+    <p>Cart: {{cart}}</p>
 
+    <button onclick="switchRole('{{uesrId}}')">Switch Role</button>
+    <button onclick="resetPassword('{{token}}')">Reset password</button>
     <a href="/edit">Edit your info</a>
     <a id="logout" href="#">Logout</a>
 </div>

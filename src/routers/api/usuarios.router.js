@@ -1,26 +1,28 @@
 import { Router } from "express";
 import passport from "passport";
-import { deleteUserController, getUserController, postUserController, putUserController, resetPasswordController, switchRolController } from "../../controllers/user.controller.js";
+import { deleteInactiveController, deleteUserController, getCurrentUser, getUserController, postUserController, putUserController, resetPasswordController, switchRolController } from "../../controllers/user.controller.js";
 import { appendJwtAsCookie, authenticateWithJwt } from "../../middlewares/authentication.js";
-import {isAdmin, soloRoles } from "../../middlewares/authorization.js";
+import {authenticate, isAdmin, onlyLoggedRest, soloRoles } from "../../middlewares/authorization.js";
 import { extractTokenFromCookie, tokenizeUserInCookie } from "../../middlewares/cookies.js";
 ;
 
 export const usuariosRouter = Router()
 
 usuariosRouter.post('/', postUserController)
-usuariosRouter.get('/current', getUserController)
+usuariosRouter.get('/current', onlyLoggedRest, passport.authenticate('jwt', { session: false }), getCurrentUser)
 usuariosRouter.get('/',
     //@ts-ignore
     passport.authenticate('jwt', { failWithError: true, session: false }),
-    authenticateWithJwt,
     isAdmin,
     getUserController
-)//solo muestra el usuario que esta loggeado, osea el admin
-usuariosRouter.put('/', putUserController)
-usuariosRouter.put('/resetpassword/:uid',
+)
+usuariosRouter.put('/', onlyLoggedRest,putUserController)
+usuariosRouter.put('/resetpassword/',
+    onlyLoggedRest,
     extractTokenFromCookie,
     resetPasswordController
 )
-usuariosRouter.put('/premium/:uid', switchRolController)//tenes que cerrar sesion para que se actualice el rol
-usuariosRouter.delete('/', deleteUserController)
+usuariosRouter.put('/premium/:uid', onlyLoggedRest, switchRolController)
+usuariosRouter.delete('/', onlyLoggedRest, authenticateWithJwt, deleteUserController)
+usuariosRouter.delete('/:uid?',passport.authenticate('jwt', { failWithError: true, session: false }), isAdmin, authenticateWithJwt, deleteUserController)
+

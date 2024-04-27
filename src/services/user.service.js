@@ -5,24 +5,7 @@ export class UserRepository{
     async createUser(data){
         const user = await this.dao.create(data)
         return user;
-        // try {
-        //     if (data.password) {
-        //       data.password = await hashear(data.password)
-        //     }
-        //     delete data.rol
-      
-        //     const user = new User(data)
-      
-        //     await this.dao.createOne(user.toPojo())
-      
-        //     await emailService.send(user.email, 'bienvenida', 'gracias por registrarse!')
 
-        //     return user.toPojo()
-        // } catch (error) {
-        //     const typedError = new Error(error.message)
-        //     typedError['type'] = 'INVALID_ARGUMENT'
-        //     throw typedError
-        // }
     }
     async getUsers(){
         return await this.dao.readMany({})
@@ -32,10 +15,28 @@ export class UserRepository{
         return userById
     }
     async updateOne(id, query){
-        return await this.dao.updateOne(id, query)
+        return this.dao.updateOne(id, query)
     }
     async deleteOne(id){
-        return await this.dao.deleteOne(id)
+        try {
+            const deletedUser = await this.dao.deleteOne(id);
+            if(!deletedUser) {
+                return {message: 'User not found'}
+            }
+            return {message: 'User deleted successfully'}
+        } catch (error) {
+            throw error;
+        }
+        
+    }
+    async deleteMany(query){
+        try{
+            const deletedUsers = await this.dao.deleteMany(query)
+            return {success: true, message: `${deletedUsers.length} users deleted`}
+        } catch (error){
+            logger.info('Error deleting users:', error)
+            throw error
+        }
     }
 }
 

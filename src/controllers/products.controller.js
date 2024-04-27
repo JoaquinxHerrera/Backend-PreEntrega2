@@ -1,5 +1,8 @@
 import { productService } from "../daos/mongodb.js"
 import { productManager } from "../daos/products/products.dao.mongoose.js"
+import { isAdmin } from "../middlewares/authorization.js"
+import { productsRouter } from "../routers/api/products.router.js"
+import { sendDeleteMailController } from "./mails.controller.js"
 
 
 
@@ -37,7 +40,7 @@ export async function getController  (req, res, next){
             hasPrevPage: data.hasPrevPage,
             hasNextPage: data.hasNextPage,
             prevLink: data.prevLink,
-            nextLinl: data.nextLink
+            nextLink: data.nextLink
            
         };
         res.status(200).send(response)
@@ -56,19 +59,26 @@ export async function getIdController (req, res){
     } 
 }
 
-export async function postController(req, res){
+export async function postController(req, res, next){
     try{
         const product = await productService.addProduct(req.body, req.user.email )
         res.status(200).json(product)
     }catch (error) {
-        res.status(400).json({message: error.message})
+        next(error)
     }
 }
 
 export async function putController(req, res){
     const {id} = req.params
     const updatedFields = req.body
+    const userEmail = req.user.email
+    const userRole = req.user.rol
     try{
+        const product = await productService.getProductById(id)
+
+        if(product.owner !== userEmail && userRole !== "admin"){
+            return res.status(403).json({message: "You are not allowed to modify this products"})
+        }
        await productService.updateProduct(id, updatedFields)
         res.json(id)
     }catch(error){
@@ -76,13 +86,29 @@ export async function putController(req, res){
     }
 }
 
-export async function deleteController(req, res){
+export async function deleteController(req, res, next){
     const {id} = req.params
+    const userEmail = req.user.email
+    const userRole = req.user.rol
     try{
-        const product = await productService.deleteProduct(id)
-        res.json(product)
+        const product = await productService.getProductById(id)
+        if(product.owner != userEmail && userRole !== "admin"){
+            return res.status(403).json({message: "You are not allowed to delete this products"})
+        }
+       
+        const deletedProduct = await productService.deleteProduct(id)
+        const owner = deletedProduct.owner
+
+        if(owner !== 'admin'){
+            await sendDeleteMailController(owner, deletedProduct)
+        }
+
+        res.status(200).json({message: "Product deleted successfully"})
     }catch(error){
         res.status(404).json({message: error.message})
     }
 }
+
+
+
     

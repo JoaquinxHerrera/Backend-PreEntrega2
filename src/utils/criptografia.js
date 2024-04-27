@@ -15,6 +15,7 @@ export async function encrypt(data){
         if(!data){
             reject(new Error('No data to encrypt'))
         }
+        delete data.exp;
         jwt.sign(data, JWT_SECRET, {expiresIn: '24h'}, (error, encoded) => {
             if(error){
                 reject(error)
@@ -30,6 +31,7 @@ export function encryptOneHour(data){
         if(!data){
             reject(new Error("Invalid data for encrypytion"));
         }
+        delete data.exp;
         jwt.sign(data, JWT_SECRET, {expiresIn: "1h"}, (err, encoded) =>{
             if(err){
                 reject(err);

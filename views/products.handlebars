@@ -1,16 +1,4 @@
-
-<div>
-    <h1>Profile</h1>
-    <p>Name: {{user.first_name}}</p>
-    <p>Surname:{{user.last_name}}</p>
-    <p>Email: {{user.email}}</p>
-
-    <a href="/edit">Edit your info</a>
-    <a id="logout" href="#">Logout</a>
-</div>
-
-
-{{#if isAdmin}}
+{{!-- {{#if isAdmin}}
 <div class="modify-products">
     <h2>Modify Products</h2>
     <form>
@@ -44,31 +32,34 @@
         </div>
     </form>
 </div>
-{{/if}}
+{{/if}} --}}
 
 {{#if totalPages}}
 <div class="productsBody">
     <div class="cardContainer">
         {{#each docs}}
         <div class="card">
-                <p class="title">{{this.title}}   </p>
-                <img  class="img"src={{this.thumbnail}} alt="">
-                <a class="seeDetails"href="/products/{{this._id}}">See datails</a>
+                <p class="title">{{title}}   </p>
+                <img  class="img"src={{thumbnail}} alt="">
+                <a class="seeDetails"href="/products/{{_id}}">See datails</a>
                 <div class="priceStock">
-                    <p class="stock">In stock: {{this.stock}}</p>
-                    <p class="price">${{this.price}}</p> 
+                    <p class="stock">In stock: {{stock}}</p>
+                    <p class="price">${{price}}</p> 
                 </div>
-                <button class="addToCart" onclick="addToCart('{{this._id}}')">Add to Cart</button>
+                <p>Owner: {{owner}}</p>
+                
+                <button class="addToCart" onclick="addToCart('{{id}}')">Add to Cart</button>
+                
         </div>
         {{/each}}
     </div>
     {{else}}
-    Nada para mostrar... <br>
+    Nothing to show... <br>
     {{/if}}
     <a {{#if hasPrevPage}} href="/products/?limit={{limit}}&page={{prevPage}}" {{/if}}>Prev</a>
     [{{page}}]
     <a {{#if hasNextPage}} href="/products/?limit={{limit}}&page={{nextPage}}" {{/if}}>Next</a><br>
-    Pagina: <input type="text"> <button onclick="irAPag({{limit}})">ir</button>
+    Page: <input type="text"> <button onclick="irAPag({{limit}})">ir</button>
 </div>
 
 <script>
@@ -76,41 +67,6 @@
         const pagDeseada = document.querySelector('input').value || 1
         window.location = `/api/products/?limit=${limit}&page=${pagDeseada}`
     }
-    
-    function addToCart(productId) {
-        fetch('/api/users/current')
-            .then(response => {
-                if (response.status === 403) {
-                    alert('You need to log in to add products to your cart.');
-                } else {
-                    const cartId = prompt('Enter the cart ID:');
-                    if (cartId !== null) {
-                        fetch(`/api/carts/${cartId}/products/${productId}`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            },
-                            body: JSON.stringify({
-                                productId: productId,
-                            }),
-                        })
-                        .then(response => response.json())
-                        .then(data => logger.info(data))
-                        .catch(error => console.error('Error:', error));
-                        Toastify({
-                        text: "Product added to cart!",
-                        duration: 3000,
-                        style: {
-                            background: "linear-gradient(to right, #00b09b, #96c93d)",
-                            padding: "0.3em 1em",
-                            marginBottom: "1em"
-                        },
-                        }).showToast();
-                    }
-                }
-            })
-            .catch(error => logger.info('Error', error)) 
-    }
 </script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-<script src="/static/js/profile.js"></script>
+<script src="/static/js/home.js"></script>

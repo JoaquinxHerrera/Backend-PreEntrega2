@@ -32,7 +32,7 @@ app.get("/loggerTest", (req, res) => {
 
 app.get("/mail", async (req, res) => {
     let result = await transport.sendMail({
-      from: "Santiago Duré - Desarrollador web <joaquin.xherrera1@gmail.com>",
+      from: "Joaquin Herrera - Desarrollador web <joaquin.xherrera1@gmail.com>",
       to: "joacoherrera98@hotmail.com",
       subject: "reestablece tu contraseña",
       html: `

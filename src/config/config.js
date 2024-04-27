@@ -24,9 +24,6 @@ export const COOKIE_OPTS = {
 export const ADMIN_EMAIL = 'adminCoder@coder.com'
 
 export const DEFAULT_ROLE = 'user'
-
-export const MODE = process.env.MODE || 'development'
-
 export const EMAIL_USER = process.env.EMAIL_USER || 'test email user'
 export const EMAIL_PASS = process.env.EMAIL_PASS
 

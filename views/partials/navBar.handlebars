@@ -1,9 +1,13 @@
 <footer>
     <nav>
         <ul>
+            <li><a href="/products">Home</a></li>
             <li><a href="/register">Register</a></li>
             <li><a href="/login">Login</a></li>
-            <li><a href="/products">Profile</a></li>
+            <li><a href="/profile">Profile</a></li>
+            {{#if isAdmin}}
+                <li><a href="/users">Users</a></li>
+            {{/if}}
         </ul>
     </nav>
 </footer>

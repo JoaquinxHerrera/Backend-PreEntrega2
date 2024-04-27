@@ -2,7 +2,6 @@ const formEdit = document.querySelector('form')
 const inputs = document.querySelectorAll('input')
 
 window.addEventListener('load', async event=>{
-    logger.info('la pagina se ha cargado correctamente')
     const response = await fetch('/api/sessions/current')
     if (response.status === 403){
         alert('You need to log in to modify your information')
@@ -10,7 +9,7 @@ window.addEventListener('load', async event=>{
     }
     
     const result = await response.json()
-    logger.info('Datos del usuario:', result)
+    console.log('Datos del usuario:', result)
     
     inputs[1].value = result.first_name
     inputs[2].value = result.last_name
@@ -37,9 +36,8 @@ formEdit?.addEventListener('submit', async event => {
     })
 
     if (response.status === 200){
-        const user = await response.json()
-        alert(JSON.stringify(user))
-        window.location.href = '/products'
+        alert("Info updated successfully, if you don't see the changes please login again");
+        window.location.href='/profile';
     } else {
         const error = await response.json()
         alert(error.message)

@@ -3,7 +3,7 @@ import { Strategy as LocalStrategy} from "passport-local";
 import {Strategy as GithubStrategy} from "passport-github2"
 import { COOKIE_OPTS, GITHUB_CALLBACK_URL, GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, JWT_SECRET } from "../config/config.js";
 import { ExtractJwt, Strategy as JwtStrategy } from "passport-jwt";
-import { encrypt } from "../utils/criptografia.js";
+import { decrypt, encrypt } from "../utils/criptografia.js";
 import { userService } from "../services/index.js";
 import { UsersDaoMongoose, usersManager } from "../daos/users/users.dao.mongoose.js";
 
@@ -55,16 +55,14 @@ passport.use('loginGithub', new GithubStrategy({
     clientSecret: GITHUB_CLIENT_SECRET, 
     callbackURL: GITHUB_CALLBACK_URL
     }, async (_, __, profile, done) => {
-        let user = await userService.getUserById({
-            email: profile.displayName,
-        });
-        if (!user) {
-          user = await userService.createUser({
-            email: profile.email,
-            first_name: profile.displayName,
-          });
-        }
-        done(null, user);
+      let user = await userService.getUserById({email: profile.username})
+            if(!user){
+                await userService.createUser({
+                    first_name: profile.displayName,
+                    email: profile.username,
+                })
+      }
+      done(null, user);
 }))
 
 //esto va por defecto
@@ -118,10 +116,14 @@ export async function authenticate(req, res, next) {
 export async function authenticateWithJwt(req, res, next) {
   passport.authenticate('jwt', { failWithError: true, session: false })(req, res, error => {
     if (error) {
+      console.error('Error de autenticación JWT:', error);
       const typedError = new Error('error de autenticacion')
       typedError['type'] = 'FAILED_AUTHENTICATION'
       next(typedError)
     } else {
+      // if (req.user && req.user._id) {
+      //   req.userId = req.user._id;
+      // }
       next()
     }
   })

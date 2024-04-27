@@ -1,12 +1,14 @@
 import { Router } from "express";
 import { productManager } from "../../daos/products/products.dao.mongoose.js";
-import { cartManager } from "../../daos/carts/cart.dao.mongoose.js";
 import { sesionesRouter } from "./sesiones.router.js";
 import { usuariosRouter } from "./usuarios.router.js";
 import swaggerJSDoc from "swagger-jsdoc";
 import swaggerUiExpress from "swagger-ui-express";
 import { SWAGGER_CONFIG } from "../../config/config.js";
 import { logger } from "../../utils/logger.js";
+import { isAdmin, onlyLoggedWeb } from "../../middlewares/authorization.js";
+import { cartService } from "../../daos/mongodb.js";
+import { userService } from "../../services/index.js";
 
 export const webRouter = Router()
 
@@ -42,10 +44,10 @@ webRouter.get('/products', async (req,res, next)=>{
     });
     logger.info(result)
     res.render('products.handlebars', {
-        user: req.user,
+        ...req.user,
         pageTitle: 'Products',
         isAdmin: req.user && req.user.rol === 'admin',
-        isUser:req.user && req.user.rol === 'user',
+        isLogged:req.user && req.user.rol === 'user',
         totalPages: result.docs.length > 0,
         ...result,
     });
@@ -54,24 +56,44 @@ webRouter.get('/products', async (req,res, next)=>{
 webRouter.get('/products/:id', async(req, res) =>{
     const product = await productManager.findById(req.params.id).lean()
     
-
     res.render('product.handlebars', {
         pageTitle: 'Product',
         product: product,
     });
 })
 
-webRouter.get('/carts/:cid', async(req, res)=>{
-    const cart = await cartManager.findById(req.params.cid).populate('products.product').lean()
+webRouter.get('/carts/:cid', onlyLoggedWeb, async(req, res)=>{
+    const {cid} = req.params
+    const cart = await cartService.getCartById({_id: cid})
     
+    logger.info(cart.products);
+    // result.products;
     if (!cart) {
         return res.status(404).json({ message: 'Cart not found' });
     }
-
+    const products = cart.products
+    const productInfo = []
+    products.forEach(product => {
+        const productId = product._id
+        const quantity = product.quantity
+        productInfo.push({productId, quantity, cartId: cid})
+    })
     res.render('cart.handlebars', {
         pageTitle: 'Cart',
-        cart: cart,
+        products: productInfo,
+        productsInCart: productInfo.length > 0,
+        cartId: cid,
+        ...req.user,
     });
+})
+
+webRouter.get('/users', isAdmin, async(req, res, next)=>{
+    const userList = await userService.getUsers()
+    res.render('users.handlebars', {
+        pageTitle: 'Cart',
+        users: userList
+
+    })
 })
 
  

@@ -11,7 +11,8 @@ export const sessions = session({
     store,
     secret: SESSION_SECRET,
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    cookie: { maxAge: 60 * 60 * 1000 },
 })
 
 
