@@ -15,6 +15,3 @@ cartsRouter.put('/:cid', onlyLoggedRest, updateCartController)//ok
 cartsRouter.put('/:cid/products/:pid', onlyLoggedRest, updateProductOnCartController)//ok
 cartsRouter.delete('/:cid', onlyLoggedRest, deleteCartController)//ok
 cartsRouter.delete('/:cid/products/:pid', onlyLoggedRest, deleteProductOnCartController)//ok
-// cartsRouter.delete('/', deleteManyController)
-// 5520d3f4-dcdc-45d7-940f-62cd525ee40d 27
-// 557049e2-d9a1-4729-bac1-c9196f4f14e2

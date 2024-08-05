@@ -62,27 +62,40 @@ webRouter.get('/products/:id', async(req, res) =>{
     });
 })
 
+webRouter.get('/carts', onlyLoggedWeb, (req, res)=>{
+    res.status(400).send('Cart ID is required')
+})
+
 webRouter.get('/carts/:cid', onlyLoggedWeb, async(req, res)=>{
     const {cid} = req.params
     const cart = await cartService.getCartById({_id: cid})
     
-    logger.info(cart.products);
+    
     // result.products;
     if (!cart) {
         return res.status(404).json({ message: 'Cart not found' });
     }
     const products = cart.products
     const productInfo = []
+    let total = 0;
+
     products.forEach(product => {
+        const thumbnail = product.thumbnail
         const productId = product._id
         const quantity = product.quantity
-        productInfo.push({productId, quantity, cartId: cid})
+        const title = product.title
+        const price = product.price
+        const subtotal = price * quantity
+        productInfo.push({productId, quantity, thumbnail, title, price, subtotal, cartId: cid})
+    
+        total += subtotal;
     })
     res.render('cart.handlebars', {
         pageTitle: 'Cart',
         products: productInfo,
         productsInCart: productInfo.length > 0,
         cartId: cid,
+        total,
         ...req.user,
     });
 })

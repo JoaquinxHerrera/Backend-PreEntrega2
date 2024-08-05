@@ -1,31 +1,49 @@
-<h1>{{ pageTitle }}</h1>
+<div class="body">
+    <h1>{{ pageTitle }}</h1>
 
-<h2>Products in Cart:</h2>
-{{#if productsInCart}}
-<table>
-    <thead>
-        <tr>
-            <th>Product ID</th>
-            <th>Quantity</th>
-            <th>Price</th>
-            <!-- Agrega más columnas según sea necesario -->
-        </tr>
-    </thead>
-    <tbody>
-        {{#each products}}
-        <tr>
-            <td>{{ this.productId }}</td> 
-            <td>{{ this.quantity }}</td> 
-            <td onClick="deleteItem('{{this.cartId}}','{{this.productId}}')">❌</td> 
-        </tr>
-        {{/each}}
-    </tbody>
-</table>
-<button onclick="checkout('{{cartId}}')">Checkout</button>
-<button onclick="clearCart('{{cartId}}')">Clear Cart</button>
+    <h2>Products in Cart:</h2>
+    {{#if productsInCart}}
+    <table class="flex-table">
+        <thead>
+            <tr class="flex-row">
+                <th class="flex-cell">Product</th>
+                <th class="flex-cell">ID</th>
+                <th class="flex-cell">Quantity</th>
+                <th class="flex-cell">Price</th>
+                <th class="flex-cell">Subtotal</th>
+                <th class="flex-cell"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr class="flex-row">
+                <td class="flex-cell">
+                    <div class="column align-center">
+                        {{ this.title }}
+                        <img class="cartImg" src="{{this.thumbnail}}">
+                    </div>
+                </td>
+                <td class="flex-cell">{{ this.productId }}</td> 
+                <td class="flex-cell">{{ this.quantity }}</td> 
+                <td class="flex-cell">${{ this.price }}</td> 
+                <td class="flex-cell">${{ this.subtotal }}</td> 
+                <td class="flex-cell pointer" onClick="deleteItem('{{this.cartId}}','{{this.productId}}')">❌</td> 
+            </tr>
+            {{/each}}
+             <tr class="flex-row total-row">
+                <td class="flex-cell" colspan="5"><strong>Total</strong></td>
+                <td class="flex-cell"><strong>${{total}}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="btnCheckout">
+        <button class="primaryButton" onclick="checkout('{{cartId}}')">Checkout</button>
+        <button class="secondaryButton" onclick="clearCart('{{cartId}}')">Clear Cart</button>
+    </div>
 
-{{else}}
-Your cart is empty...
-{{/if}}
+    {{else}}
+    Your cart is empty...
+    {{/if}}
+</div>
 
 <script src="/static/js/cart.js"></script>

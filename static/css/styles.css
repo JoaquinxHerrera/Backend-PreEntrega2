@@ -245,3 +245,135 @@ header{
 .usersBtn{
     cursor: pointer;
 }
+
+.error{
+    color: rgb(214, 13, 13);
+    font-weight: bold;
+}
+
+.avatar{
+    width: 7em;
+    margin-bottom: 1em;
+}
+.justify-center{
+    display: flex;
+    align-items: center;
+}
+
+.profileInfo{
+    margin-top: 2em;
+
+}
+
+.profileInfo img{
+    width: 1.5em;
+    margin-right: 0.5em;
+}
+
+
+.flex{
+    display: flex;
+    justify-content: center;
+}
+
+.switchUser{
+    cursor: pointer;
+}
+
+.logout{
+    background-color: rgb(128, 25, 25);
+    text-decoration: none;
+    color: white;
+    text-align: center;
+    padding: 0.5em 10.1em;
+    border-radius: 6px;
+}
+
+.body{
+    margin: 2% 5%;
+}
+
+.cart{
+    display: flex;
+    justify-content: space-between;
+}
+
+.cartImg{
+    width:10em;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+
+.column{
+    display: flex;
+    flex-direction: column;
+}
+.align-center{
+    align-items: center;
+}
+
+.tableCart{
+    justify-content: space-between;
+}
+
+.flex-table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 2em;
+}
+
+.flex-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.flex-cell{
+    flex: 1;
+    padding: 10px;
+    text-align: left;
+    
+    
+}
+
+.flex-cell img{
+    max-width: 100px;
+}
+
+.primaryButton{
+    margin: 0 auto;
+    text-decoration: none;
+    border: 1px solid #03396f;
+    color: #03396f;
+    border-radius: 8px;
+    padding: 0.5em 2em;
+    cursor: pointer;
+}
+
+.primaryButton:hover{
+    color: white;
+    background-color: #03396f;
+}
+
+.secondaryButton{
+    margin: 0 auto;
+    text-decoration: none;
+    border: 1px solid #6f0303;
+    color: #6f0303;
+    border-radius: 8px;
+    padding: 0.5em 2em;
+    cursor: pointer;
+}
+.secondaryButton:hover{
+    color: white;
+    background-color: #6f0303;
+    
+}
+
+.btnCheckout{
+    background-color: gray;
+}

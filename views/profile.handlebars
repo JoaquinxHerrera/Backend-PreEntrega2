@@ -1,15 +1,19 @@
 <div class="login">
     <h1>Profile</h1>
-    <p>Name: {{first_name}}</p>
-    <p>Surname: {{last_name}}</p>
-    <p>Email: {{email}}</p>
-    <p>Role: {{rol}}</p>
-    <p>Cart: {{cart}}</p>
+    <div class="justify-center">
+        <img class="avatar" src="/static/imgs/avatar.png" alt="">
+        <p><b>{{first_name}} {{last_name}}</b></p>
+    </div>
+    <div class="profileInfo">
+        <p><img src="/static/imgs/email.png" alt="">{{email}}</p>
+        <p>Role: {{rol}} <img class="switchUser" onclick="switchRole('{{userId}}')" src="/static/imgs/switchUser.png" alt=""></p> 
+        <p>Cart: {{cart}}</p>
+    </div>
 
-    <button onclick="switchRole('{{uesrId}}')">Switch Role</button>
+   <a class="editProfile" href="/edit">Edit your info</a>
     <button onclick="resetPassword('{{token}}')">Reset password</button>
-    <a href="/edit">Edit your info</a>
-    <a id="logout" href="#">Logout</a>
+    
+    <a class="logout" id="logout" href="#">Logout</a>
 </div>
 
 <script src="/static/js/profile.js"></script>

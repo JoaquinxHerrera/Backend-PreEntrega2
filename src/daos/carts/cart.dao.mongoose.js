@@ -11,7 +11,10 @@ const cartSchema = new Schema({
     products: [
         {
             _id: { type: String, ref: 'products' },
-            quantity: { type: Number, min:0, default: 1 }
+            quantity: { type: Number, min:0, default: 1 },
+            thumbnail: {type: String, ref: 'products'},
+            title:{type: String, ref: 'products'},
+            price: { type: Number, ref: 'products' }
         }      
     ],   
 },
@@ -33,7 +36,7 @@ const cartSchema = new Schema({
                     {_id: cid},
                     {
                         $addToSet: {
-                            products: {_id: product._id, quantity: initialQuantity}
+                            products: {_id: product._id, quantity: initialQuantity, title: product.title, price: product.price,  thumbnail: product.thumbnail}
                         }
                     }
                 )

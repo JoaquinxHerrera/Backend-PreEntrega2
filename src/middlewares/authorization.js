@@ -1,12 +1,19 @@
 import { decrypt } from "../utils/criptografia.js"
 
-export function onlyLoggedWeb (req, res, next){
-    if (!req.isAuthenticated()){
-        return res
-            .redirect('/unauthorized');
+// export function onlyLoggedWeb (req, res, next){
+//     if (!req.isAuthenticated()){
+//         return res
+//             .redirect('/unauthorized');
         
+//     }
+//     next();
+// }
+export function onlyLoggedWeb(req, res, next) {
+    if (!req.user) {
+        res.redirect('/login?error=You must log in first');
+    } else {
+        next();
     }
-    next();
 }
 export function onlyLoggedRest (req, res, next){
     if (!req.isAuthenticated()){
